@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  back:
+    image: ${DOCKER_REGISTRY-}backend
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+
+  front:
+    image: client
+    build:
+        context: ./frontend
+        dockerfile: Dockerfile
+
+  proxy:
+    image: nginx:mainline
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    
+
