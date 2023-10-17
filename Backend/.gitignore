@@ -1,3 +1,5 @@
 SQLData/log/*
 SQLData/secrets/*
 SQLData/data/*
+bin/
+obj/
