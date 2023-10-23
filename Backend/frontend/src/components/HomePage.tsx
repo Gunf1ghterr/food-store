@@ -6,6 +6,7 @@ export default function HomePage() {
         <>
             <Header />
             <main>
+                <button className="btn btn-dark">test</button>
                 <div className="test-class"></div>
                 <div className="test-class"></div>
                 <div className="test-class"></div>
