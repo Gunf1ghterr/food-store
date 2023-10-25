@@ -6,7 +6,7 @@ interface AppState {
 }
 
 
-class App extends Component<{}, AppState> {
+class App1 extends Component<{}, AppState> {
   private socket: WebSocket | null = null;
 
   constructor(props: {} | Readonly<{}>) {
@@ -93,4 +93,4 @@ class App extends Component<{}, AppState> {
   }
 }
 
-export default App;
+export default App1;

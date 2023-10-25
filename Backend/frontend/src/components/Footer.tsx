@@ -1,19 +1,21 @@
+import {NavLink} from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="bg-light text-dark pt-1">
       <div className="container">
         <div className="row mb-3 text-center">
           <div className="col-md-3">
-            <a className="text-dark no-underline" href="#">Пользовательские соглашения</a>
+            <NavLink className="text-dark no-underline" to="/agreement">Пользовательские соглашения</NavLink>
           </div>
           <div className="col-md-3">
-            <a className="text-dark no-underline" href="#">Лицензионные соглашения соглашения</a>
+            <NavLink className="text-dark no-underline" to="/license">Лицензионные соглашения</NavLink>
           </div>
           <div className="col-md-3">
-            <a className="text-dark no-underline" href="#">Политика конфиденциальности </a>
+            <NavLink className="text-dark no-underline" to="/privacy-policy">Политика конфиденциальности </NavLink>
           </div>
           <div className="col-md-3">
-            <a className="text-dark no-underline" href="#">Правила оплаты</a>
+            <NavLink className="text-dark no-underline" to="/payments">Правила оплаты</NavLink>
           </div>
         </div>
         <div className="row">
