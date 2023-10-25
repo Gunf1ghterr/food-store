@@ -5,6 +5,7 @@ interface AppState {
   users: { name: string }[];
 }
 
+
 class App extends Component<{}, AppState> {
   private socket: WebSocket | null = null;
 

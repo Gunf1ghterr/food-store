@@ -6,6 +6,7 @@
 
 html, body {
     height: 100%;
+    background-color: #d6d6d6;
 }
 
 #root {
@@ -20,16 +21,7 @@ html, body {
     height: 100px;
 }
 
-header {
-    width: 100%;
-    height: 50px;
-    text-align: center;
-    border-bottom: 2px solid silver;
-    background: #333;
-    color: white;
-    line-height: 50px;
-    margin-bottom: 10px;   
- }
+
 
  main {
     flex: 1 1 auto;
@@ -39,10 +31,22 @@ header {
     margin-top: 10px;
      align-self: flex-end;
      width: 100%;
-     height: 50px;
-     background: #333;
-     color: white;
-     line-height: 50px;
-     text-align: center;
-     font-size: 1.2rem;
  }
+
+ .autorization-container:hover {
+    cursor: pointer;
+ }
+
+.basket-container {
+    background-color: black;
+    color: white;
+    padding-right: 7px;
+    border-radius: 50px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.no-underline:hover {
+    text-decoration: none;
+}
