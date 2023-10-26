@@ -80,7 +80,6 @@ footer {
     transition: all 0.3s linear;
 
     &:hover {
-        cursor: pointer;
         opacity: 1;
         width: 75px;
         height: 75px;
@@ -97,7 +96,19 @@ a {
     }
 }
 
-p.h2 {
+p,
+p.h1,
+p.h2,
+p.h3,
+p.h4,
+p.h5,
+p.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     &:hover {
         cursor: default;
     }
@@ -119,7 +130,6 @@ p.h2 {
 
         &:hover {
             transform: scale(1.2);
-            cursor: pointer;
         }
     }
 }
