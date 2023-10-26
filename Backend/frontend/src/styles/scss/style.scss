@@ -4,7 +4,8 @@
     padding: 0;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     background-color: #d6d6d6;
 }
@@ -23,15 +24,15 @@ html, body {
 
 
 
- main {
+main {
     flex: 1 1 auto;
- }
- 
- footer {
+}
+
+footer {
     margin-top: 10px;
-     align-self: flex-end;
-     width: 100%;
- }
+    align-self: flex-end;
+    width: 100%;
+}
 
 .autorization-container {
     border: 1px solid black;
@@ -39,6 +40,7 @@ html, body {
     border-radius: 40px;
     transition: all 0.3s linear;
     max-width: 100px;
+
     &:hover {
         cursor: pointer;
         background-color: black;
@@ -55,6 +57,7 @@ html, body {
     border-radius: 40px;
     max-width: 120px;
     transition: all 0.3s linear;
+
     &:hover {
         cursor: pointer;
         background-color: white;
@@ -75,6 +78,7 @@ html, body {
 .logo-img {
     opacity: 0.9;
     transition: all 0.3s linear;
+
     &:hover {
         cursor: pointer;
         opacity: 1;
@@ -83,8 +87,9 @@ html, body {
     }
 }
 
-a{
+a {
     opacity: 0.7;
+
     &:hover {
         opacity: 1;
         position: relative;
@@ -108,12 +113,13 @@ p.h2 {
 
 .img-scale-wrapper {
     overflow: hidden;
+
     .img-scale {
         transition: all 0.2s ease;
+
         &:hover {
             transform: scale(1.2);
             cursor: pointer;
         }
     }
 }
-

@@ -1,10 +1,16 @@
-export default function HomePage() {
+import { useEffect } from "react";
+
+export const HomePage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <main>
         <div className="container">
           <div className="row">
-          <div className="col-xxl-3 col-lg-4 col-md-6 col-sm-12 px-1">
+            <div className="col-xxl-3 col-lg-4 col-md-6 col-sm-12 px-1">
               <div className="card m-3" style={{ width: "18rem" }}>
                 <div className="img-scale-wrapper">
                   <img
@@ -104,4 +110,4 @@ export default function HomePage() {
       </main>
     </>
   );
-}
+};

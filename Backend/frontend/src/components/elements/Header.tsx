@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-export default function Header() {
+export const Header: React.FC = () => {
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary ">
@@ -42,4 +42,4 @@ export default function Header() {
       </nav>
     </header>
   );
-}
+};
