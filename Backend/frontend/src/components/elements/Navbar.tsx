@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-
-export default function Navbar() {
+export const Navbar: React.FC = () => {
   return (
     <div className=" navbar-sticky">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -64,4 +63,4 @@ export default function Navbar() {
       </nav>
     </div>
   );
-}
+};
