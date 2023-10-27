@@ -3,3 +3,4 @@ SQLData/secrets/*
 SQLData/data/*
 bin/
 obj/
+.vs
