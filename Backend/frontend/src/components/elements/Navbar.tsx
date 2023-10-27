@@ -4,7 +4,7 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
 
   const isCurrentPage = (path: string): string => {
-    return location.pathname === path ? "link-primary" : "";
+    return location.pathname === path ? "link-primary selected-link" : "";
   };
 
   return (
@@ -30,8 +30,10 @@ export const Navbar: React.FC = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    className={`nav-link text-decoration-underline active`}
-                    to="#"
+                    className={`nav-link text-decoration-underline active ${isCurrentPage(
+                      "/offers"
+                    )}`}
+                    to="offers"
                   >
                     Акции
                   </NavLink>
@@ -39,16 +41,20 @@ export const Navbar: React.FC = () => {
 
                 <li className="nav-item">
                   <NavLink
-                    className={`nav-link text-decoration-underline active`}
-                    to="#"
+                    className={`nav-link text-decoration-underline active ${isCurrentPage(
+                      "/feedback"
+                    )}`}
+                    to="feedback"
                   >
                     Отзывы
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    className={`nav-link text-decoration-underline  active`}
-                    to="#"
+                    className={`nav-link text-decoration-underline active ${isCurrentPage(
+                      "/about"
+                    )}`}
+                    to="about"
                   >
                     О нас
                   </NavLink>

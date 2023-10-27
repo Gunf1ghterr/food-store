@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
 
   const isCurrentPage = (path: string): string => {
     return location.pathname === path
-      ? "link-primary"
+      ? "link-primary selected-link"
       : "text-dark no-underline";
   };
   return (

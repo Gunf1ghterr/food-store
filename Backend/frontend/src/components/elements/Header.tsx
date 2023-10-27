@@ -14,6 +14,7 @@ export const Header: React.FC = () => {
                       alt="Logo"
                       width="50"
                       height="50"
+                      title="Food-Store"
                     />
                   </div>
                   <div className="my-auto px-2">
@@ -21,7 +22,7 @@ export const Header: React.FC = () => {
                   </div>
                 </div>
                 <div className="d-flex text-center">
-                  <p className="my-auto px-3 h5">+7(985) 222-22-22</p>
+                  <p className="my-auto px-3 h5">+7(888) 888-88-88</p>
                   <div className=" d-flex autorization-container">
                     <div className="icon-user" style={{ fontSize: "30px" }} />
                     <p className=" my-auto">Вход</p>
