@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
                       "/"
                     )}`}
                     aria-current="page"
-                    to="/"
+                    to={{ pathname: "/", search: "?param=all" }}
                   >
                     Главная
                   </NavLink>

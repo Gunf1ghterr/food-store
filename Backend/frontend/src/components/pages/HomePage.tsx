@@ -9,91 +9,89 @@ export const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <main>
-        <div className="container my-3">
-          <div className="row">
-            <Caruosel />
-          </div>
+    <main>
+      <div className="container my-3">
+        <div className="row">
+          <Caruosel />
         </div>
-        <NavbarMenu />
-        <div className="container">
-          <div className="row">
-            <ProductContainer
-              id={1}
-              description="Небольшой пример текста, который должен основываться на
+      </div>
+      <NavbarMenu />
+      <div className="container">
+        <div className="row">
+          <ProductContainer
+            id={1}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара11111111"
-            />
-            <ProductContainer
-              id={2}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара11111111"
+          />
+          <ProductContainer
+            id={2}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара22222"
-            />
-            <ProductContainer
-              id={3}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара22222"
+          />
+          <ProductContainer
+            id={3}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара"
-            />
-            <ProductContainer
-              id={4}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара"
+          />
+          <ProductContainer
+            id={4}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара"
-            />
-            <ProductContainer
-              id={5}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара"
+          />
+          <ProductContainer
+            id={5}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара"
-            />
-            <ProductContainer
-              id={6}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара"
+          />
+          <ProductContainer
+            id={6}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара"
-            />
-            <ProductContainer
-              id={7}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара"
+          />
+          <ProductContainer
+            id={7}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара"
-            />
-            <ProductContainer
-              id={8}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара"
+          />
+          <ProductContainer
+            id={8}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара"
-            />
-            <ProductContainer
-              id={9}
-              description="Небольшой пример текста, который должен основываться на
+            image="./logo.jpg"
+            title="Карточка товара"
+          />
+          <ProductContainer
+            id={9}
+            description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
-              image="./logo.jpg"
-              title="Карточка товара"
-            />
-          </div>
+            image="./logo.jpg"
+            title="Карточка товара"
+          />
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
