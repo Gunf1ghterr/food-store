@@ -17,15 +17,12 @@ namespace Backend
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddEnvironmentVariables()
-            .AddJsonFile(".env", optional: true); 
-
+            .AddJsonFile("env.json", optional: true);
             IConfiguration configuration = builder.Build();
-
-            string ConnectionString = configuration["ConnectionString"];
-
+            string? ConnectionString = configuration["ConnectionString"];
             // Для миграции писать в соединении "localhost,1433" !!!!!;
+            Console.WriteLine(ConnectionString);
             optionsBuilder.UseSqlServer(ConnectionString);
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
