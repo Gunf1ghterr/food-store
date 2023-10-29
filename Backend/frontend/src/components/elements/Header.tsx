@@ -22,7 +22,13 @@ export const Header: React.FC = () => {
                   </div>
                 </div>
                 <div className="d-flex text-center">
-                  <p className="my-auto px-3 h5">+7(888) 888-88-88</p>
+                  <a
+                    href="tel:+7(912) 733-05-71"
+                    className="my-auto px-3 h5 "
+                    style={{ textDecoration: "none" }}
+                  >
+                    +7(912) 733-05-71
+                  </a>
                   <div className=" d-flex autorization-container">
                     <div className="icon-user" style={{ fontSize: "30px" }} />
                     <p className=" my-auto">Вход</p>

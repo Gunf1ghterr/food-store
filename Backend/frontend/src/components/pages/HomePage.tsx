@@ -17,7 +17,7 @@ export const HomePage: React.FC = () => {
                     названии карточки и составлять основную часть содержимого
                     карточки."
               image="./logo.jpg"
-              title="Карточка товара111111111"
+              title="Карточка товара11111111"
             />
             <ProductContainer
               id={2}
