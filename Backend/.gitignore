@@ -4,3 +4,5 @@ SQLData/data/*
 bin/
 obj/
 .vs/
+.env
+env.json

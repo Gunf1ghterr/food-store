@@ -5,7 +5,7 @@ export const Policy: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <>
+    <main>
       <div className="container my-4">
         <div className="row d-flex justify-content-center">
           <div className="col-md-8">
@@ -131,6 +131,6 @@ export const Policy: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };

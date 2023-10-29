@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { ProductContainer } from "../elements/containers/ProductContainer";
 
 export const HomePage: React.FC = () => {
   useEffect(() => {
@@ -10,103 +11,40 @@ export const HomePage: React.FC = () => {
       <main>
         <div className="container">
           <div className="row">
-            <div className="col-xxl-3 col-lg-4 col-md-6 col-sm-12 px-1">
-              <div className="card m-3" style={{ width: "18rem" }}>
-                <div className="img-scale-wrapper">
-                  <img
-                    src="logo.jpg"
-                    className="card-img-top img-scale"
-                    alt="..."
-                  />
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title">Карточка товара на будущее</h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <div className="d-flex justify-content-between text-center">
-                    <button className="btn btn-danger">Убрать</button>
-                    <p className="h5 my-auto">1</p>
-                    <button className="btn btn-success ">Добавить</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-xxl-3 col-lg-4 col-md-6 col-sm-12 px-1">
-              <div className="card m-3" style={{ width: "18rem" }}>
-                <div className="img-scale-wrapper">
-                  <img
-                    src="logo.jpg"
-                    className="card-img-top img-scale"
-                    alt="..."
-                  />
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title">Карточка товара на будущее</h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <div className="d-flex justify-content-between text-center">
-                    <button className="btn btn-danger">Убрать</button>
-                    <p className="h5 my-auto">1</p>
-                    <button className="btn btn-success ">Добавить</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-xxl-3 col-lg-4 col-md-6 col-sm-12 px-1">
-              <div className="card m-3" style={{ width: "18rem" }}>
-                <div className="img-scale-wrapper">
-                  <img
-                    src="logo.jpg"
-                    className="card-img-top img-scale"
-                    alt="..."
-                  />
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title">Карточка товара на будущее</h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <div className="d-flex justify-content-between text-center">
-                    <button className="btn btn-danger">Убрать</button>
-                    <p className="h5 my-auto">1</p>
-                    <button className="btn btn-success ">Добавить</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-xxl-3 col-lg-4 col-md-6 col-sm-12 px-1">
-              <div className="card m-3" style={{ width: "18rem" }}>
-                <div className="img-scale-wrapper">
-                  <img
-                    src="logo.jpg"
-                    className="card-img-top img-scale"
-                    alt="..."
-                  />
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title">Карточка товара на будущее</h5>
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <div className="d-flex justify-content-between text-center">
-                    <button className="btn btn-danger">Убрать</button>
-                    <p className="h5 my-auto">1</p>
-                    <button className="btn btn-success ">Добавить</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ProductContainer
+              id={1}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара11111111"
+            />
+            <ProductContainer
+              id={2}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара22222"
+            />
+            <ProductContainer
+              id={3}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара"
+            />
+            <ProductContainer
+              id={4}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара"
+            />
           </div>
         </div>
-
-        <div style={{ height: "100vh" }}></div>
-        <div style={{ height: "100vh" }}></div>
       </main>
     </>
   );
