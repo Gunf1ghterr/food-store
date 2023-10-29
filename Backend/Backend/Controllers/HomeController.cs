@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Backend.DataModeles;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
@@ -14,6 +15,18 @@ namespace Backend.Controllers
                 new {name = "oleg"},
                 new {name = "ivan"}
             };
+
+            //using (var cont = new ContextDataBase())
+            //{
+            //    var NewStatus = new Status
+            //    {
+            //        Name = "test"
+            //    };
+
+            //    cont.statuses.Add(NewStatus);
+            //    cont.SaveChanges();
+            //}
+
 
             return Ok(user);
         }
