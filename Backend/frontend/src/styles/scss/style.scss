@@ -139,3 +139,9 @@ h6 {
     position: relative;
     top: -2px;
 }
+
+.navbar-menu-sticky {
+    position: sticky;
+    top: 50px;
+    z-index: 100;
+}

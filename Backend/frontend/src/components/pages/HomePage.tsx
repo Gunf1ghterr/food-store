@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { ProductContainer } from "../elements/containers/ProductContainer";
+import { Caruosel } from "../elements/containers/Carousel";
+import { NavbarMenu } from "../elements/NavbarMenu";
 
 export const HomePage: React.FC = () => {
   useEffect(() => {
@@ -9,6 +11,12 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <main>
+        <div className="container my-3">
+          <div className="row">
+            <Caruosel />
+          </div>
+        </div>
+        <NavbarMenu />
         <div className="container">
           <div className="row">
             <ProductContainer
@@ -37,6 +45,46 @@ export const HomePage: React.FC = () => {
             />
             <ProductContainer
               id={4}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара"
+            />
+            <ProductContainer
+              id={5}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара"
+            />
+            <ProductContainer
+              id={6}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара"
+            />
+            <ProductContainer
+              id={7}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара"
+            />
+            <ProductContainer
+              id={8}
+              description="Небольшой пример текста, который должен основываться на
+                    названии карточки и составлять основную часть содержимого
+                    карточки."
+              image="./logo.jpg"
+              title="Карточка товара"
+            />
+            <ProductContainer
+              id={9}
               description="Небольшой пример текста, который должен основываться на
                     названии карточки и составлять основную часть содержимого
                     карточки."
