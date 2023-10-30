@@ -3,15 +3,15 @@ import { useEffect } from "react";
 
 export const NavbarMenu: React.FC = () => {
   useEffect(() => {
-    const currentPath = window.location.pathname;
-    const params = new URLSearchParams({ param: "all" });
-    const newPath = `${currentPath}?${params.toString()}`;
+    const currentPath: string = window.location.pathname;
+    const params: URLSearchParams = new URLSearchParams({ param: "all" });
+    const newPath: string = `${currentPath}?${params.toString()}`;
     window.history.replaceState(null, "", newPath);
   }, []);
 
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const param = searchParams.get("param");
+  const searchParams: URLSearchParams = new URLSearchParams(location.search);
+  const param: string | null = searchParams.get("param");
   console.log(param);
 
   return (
