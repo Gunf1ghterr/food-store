@@ -8,8 +8,8 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <div className=" navbar-sticky">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <div className="navbar-sticky">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary py-1">
         <div className="container-fluid">
           <div className="container p-0">
             <div
@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
                       "/"
                     )}`}
                     aria-current="page"
-                    to="/"
+                    to={{ pathname: "/", search: "?param=all" }}
                   >
                     Главная
                   </NavLink>

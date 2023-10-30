@@ -15,7 +15,7 @@ export const ProductContainer: React.FC<IProductContainerProps> = ({
       className="col-xxl-3 col-lg-4 col-md-6 col-sm-12 px-1 d-flex justify-content-center"
       id={String(id)}
     >
-      <div className="card m-3">
+      <div className="card m-3 rounded-top-5">
         <Modal modalTitle="Товар" modalId={"product-" + String(id)}>
           <div className="img-scale-wrapper">
             <img src={image} className="card-img-top img-scale" alt="..." />
