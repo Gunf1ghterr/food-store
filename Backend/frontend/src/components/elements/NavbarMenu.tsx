@@ -2,12 +2,12 @@ import { useLocation, NavLink } from "react-router-dom";
 import { useEffect } from "react";
 
 export const NavbarMenu: React.FC = () => {
-  const currentPath = window.location.pathname;
   useEffect(() => {
+    const currentPath = window.location.pathname;
     const params = new URLSearchParams({ param: "all" });
     const newPath = `${currentPath}?${params.toString()}`;
     window.history.replaceState(null, "", newPath);
-  }, [currentPath]);
+  }, []);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
