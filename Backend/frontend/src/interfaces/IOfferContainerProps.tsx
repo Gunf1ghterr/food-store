@@ -1,7 +1,6 @@
 export interface IOfferContainerProps {
-    title: string;
-    image: string;
-    description: string;
-    id: Number;
-  }
-  
+  title: string;
+  image: string;
+  description: string;
+  id: Number;
+}
