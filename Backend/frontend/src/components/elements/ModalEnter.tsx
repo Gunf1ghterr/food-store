@@ -88,7 +88,7 @@ export const ModalEnter = ({ isOpen, onClose}: { isOpen: boolean, onClose: () =>
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Вход</h5>
+                <h5 className="modal-title">Регистрация</h5>
                 <button type="button" className="close" onClick={handleClose}>
                   <span>&times;</span>
                 </button>
@@ -101,14 +101,6 @@ export const ModalEnter = ({ isOpen, onClose}: { isOpen: boolean, onClose: () =>
                       type="email"
                       className="form-control"
                       placeholder="Имя"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Фамилия</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Фамилия"
                     />
                   </div>
                   <div className="form-group">

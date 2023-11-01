@@ -30,7 +30,7 @@ export const Header: React.FC<{ onOpenModal: () => void }> = ({ onOpenModal }) =
                   >
                     +7(912) 733-05-71
                   </a>
-                  <div onClick={onOpenModal} className=" d-flex autorization-container">
+                  <div onClick={onOpenModal} className=" d-flex autorization-container" >
                     <div className="icon-user" style={{ fontSize: "30px" }} />
                     <p className=" my-auto">Вход</p>
                   </div>
