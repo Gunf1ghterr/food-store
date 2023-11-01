@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState } from 'react';
 import { Footer } from "./elements/Footer";
 import { Header } from "./elements/Header";
 import { Navbar } from "./elements/Navbar";
@@ -9,11 +10,22 @@ import { Policy } from "./pages/Policy";
 import { Offers } from "./pages/Offers";
 import { About } from "./pages/About";
 import { Feedback } from "./pages/Feedback";
+import { ModalEnter } from "./elements/ModalEnter";
 
 export const App: React.FC = () => {
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header onOpenModal={openModal}/>
       <Navbar />
       <Routes>
         <Route element={<HomePage />} path="" />
@@ -24,6 +36,10 @@ export const App: React.FC = () => {
         <Route element={<About />} path="/about" />
         <Route element={<Feedback />} path="/feedback" />
       </Routes>
+      <ModalEnter isOpen={isModalOpen} onClose={closeModal}>
+        <h2>Модальное окно</h2>
+        <p>Содержимое модального окна</p>
+      </ModalEnter>
       <Footer />
     </BrowserRouter>
   );
