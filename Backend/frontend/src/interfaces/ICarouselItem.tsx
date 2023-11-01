@@ -1,5 +1,4 @@
 export interface ICarouselItem {
-    image: string;
-    active: boolean;
-  }
-  
+  image: string;
+  active: boolean;
+}
