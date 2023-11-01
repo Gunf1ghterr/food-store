@@ -36,10 +36,7 @@ export const App: React.FC = () => {
         <Route element={<About />} path="/about" />
         <Route element={<Feedback />} path="/feedback" />
       </Routes>
-      <ModalEnter isOpen={isModalOpen} onClose={closeModal}>
-        <h2>Модальное окно</h2>
-        <p>Содержимое модального окна</p>
-      </ModalEnter>
+      <ModalEnter isOpen={isModalOpen} onClose={closeModal}/>
       <Footer />
     </BrowserRouter>
   );
