@@ -11,7 +11,7 @@ export const ValidateLogin = (_form: HTMLFormElement): number => {
     return password.length >= 8;
   }
   let error: number = 0;
-  let formReq = document.querySelectorAll("[required]");
+  let formReq = _form.querySelectorAll("[required]");
   for (let i = 0; i < formReq.length; i++) {
     const input = formReq[i] as HTMLInputElement;
     RemoveError(input);

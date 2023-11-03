@@ -32,6 +32,8 @@ export const Feedback: React.FC = () => {
               action="api/feedback/new"
               method="POST"
               encType="multipart/form-data"
+              id="feedback-form"
+              name="feedback-form"
             >
               <div className="modal-body">
                 <div className="form-group">
@@ -46,6 +48,7 @@ export const Feedback: React.FC = () => {
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                       e.currentTarget.classList.remove("error");
                     }}
+                    form="feedback-form"
                   ></textarea>
                   <input
                     type="file"
@@ -55,6 +58,7 @@ export const Feedback: React.FC = () => {
                     name="feedback-image"
                     accept=".jpg, .jpeg, .png"
                     onChange={FilePreview()}
+                    form="feedback-form"
                   />
                   <div id="filePreview" className="file-preview"></div>
                 </div>
@@ -77,8 +81,8 @@ export const Feedback: React.FC = () => {
               >
                 Можно вставлять только картинки!
               </div>
-              <div id="spinner"></div>
             </form>
+            <div id="spinner-feedback"></div>
           </div>
         </div>
       </div>

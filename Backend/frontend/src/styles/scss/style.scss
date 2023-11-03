@@ -146,6 +146,7 @@ h6 {
     z-index: 100;
 }
 
+
 .write-feedback {
     background-color: rgb(255, 0, 0);
     position: fixed;
@@ -213,17 +214,23 @@ h6 {
     position: relative;
     cursor: pointer;
 
-    &:hover::after {
+    &::after {
         content: attr(tooltip-title);
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         display: block;
         position: absolute;
-        background-color: rgb(180, 110, 110);
+        background-color: rgb(47, 47, 47);
         color: #fff;
         padding: 5px;
-        border-radius: 0 0 10px 10px;
+        border-radius: 10px;
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    &:hover::after {
+        opacity: 0.85;
     }
 }

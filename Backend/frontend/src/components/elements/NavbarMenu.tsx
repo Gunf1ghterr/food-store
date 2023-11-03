@@ -12,11 +12,13 @@ export const NavbarMenu: React.FC = () => {
   const location = useLocation();
   const searchParams: URLSearchParams = new URLSearchParams(location.search);
   const param: string | null = searchParams.get("param");
-  console.log(param);
 
   return (
     <nav className="navbar navbar-menu-sticky">
-      <div className="container bg-body-tertiary rounded-5">
+      <div
+        className="container bg-body-tertiary rounded-5"
+        style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.4)" }}
+      >
         <NavLink
           className={`nav-link d-inline p-2 ${
             param === "all" || param === null

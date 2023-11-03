@@ -1,7 +1,7 @@
 import { AddError } from "./AddError";
 import { RemoveError } from "./RemoveError";
 
-export const ValidateSingin = (_form: HTMLFormElement): number => {
+export const ValidateReg = (_form: HTMLFormElement): number => {
   function isValidEmail(email: string): boolean {
     const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailPattern.test(email);
@@ -16,7 +16,7 @@ export const ValidateSingin = (_form: HTMLFormElement): number => {
     return password.length >= 8;
   }
   let error: number = 0;
-  let formReq = document.querySelectorAll("[required]");
+  let formReq = _form.querySelectorAll("[required]");
   for (let i = 0; i < formReq.length; i++) {
     const input = formReq[i] as HTMLInputElement;
     RemoveError(input);

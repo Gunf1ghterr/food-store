@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FormLogin } from "./containers/FormLogin";
-import { FormSingin } from "./containers/FormSingin";
+import { FormReg } from "./containers/FormReg";
 
 export const ModalLogin: React.FC = () => {
   const [login, setLogin] = useState(false);
@@ -38,7 +38,7 @@ export const ModalLogin: React.FC = () => {
               ></button>
             </div>
             <div className="modal-body">
-              {!login ? <FormLogin /> : <FormSingin />}
+              {!login ? <FormLogin /> : <FormReg />}
               <div id="spinner"></div>
             </div>
           </div>

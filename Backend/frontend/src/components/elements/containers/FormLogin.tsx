@@ -2,21 +2,23 @@ import { SendLogin } from "../../functions/SendLogin";
 
 export const FormLogin: React.FC = () => {
   return (
-    <form action="api/login" method="POST">
+    <form action="api/login" method="POST" id="login-form" name="login-form">
       <div className="form-group">
-        <input
-          type="email"
-          className="form-control"
-          id="loginMailInput"
-          name="loginMailInput"
-          required
-          placeholder="Почта"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            e.currentTarget.classList.remove("error");
-          }}
-        />
-
-        <div className="my-3">
+        <div className="mb-5">
+          <input
+            type="email"
+            className="form-control"
+            id="loginMailInput"
+            name="loginMailInput"
+            required
+            placeholder="Почта"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              e.currentTarget.classList.remove("error");
+            }}
+            form="login-form"
+          />
+        </div>
+        <div className="mb-5">
           <input
             type="password"
             className="form-control"
@@ -27,6 +29,7 @@ export const FormLogin: React.FC = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               e.currentTarget.classList.remove("error");
             }}
+            form="login-form"
           />
         </div>
       </div>
