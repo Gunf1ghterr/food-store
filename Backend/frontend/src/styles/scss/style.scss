@@ -203,7 +203,27 @@ h6 {
     padding: 10px;
     display: flex;
     justify-content: center;
+
     &+img {
         max-width: 100%;
+    }
+}
+
+.tooltip-element {
+    position: relative;
+    cursor: pointer;
+
+    &:hover::after {
+        content: attr(tooltip-title);
+        font-size: 0.8rem;
+        display: block;
+        position: absolute;
+        background-color: rgb(180, 110, 110);
+        color: #fff;
+        padding: 5px;
+        border-radius: 0 0 10px 10px;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }

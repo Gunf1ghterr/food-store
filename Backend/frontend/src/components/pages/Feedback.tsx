@@ -37,7 +37,7 @@ export const Feedback: React.FC = () => {
                 <div className="form-group">
                   <label htmlFor="feedback-textarea">Поле для ввода</label>
                   <textarea
-                    className="form-control _req"
+                    className="form-control"
                     id="feedback-textarea"
                     name="feedback-textarea"
                     style={{ resize: "none" }}

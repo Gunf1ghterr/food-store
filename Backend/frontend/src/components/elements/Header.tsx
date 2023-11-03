@@ -1,5 +1,6 @@
+import { ModalLogin } from "./ModalLogin";
 
-export const Header: React.FC<{ onOpenModal: () => void }> = ({ onOpenModal }) => {
+export const Header: React.FC = () => {
   return (
     <>
       <header>
@@ -30,10 +31,17 @@ export const Header: React.FC<{ onOpenModal: () => void }> = ({ onOpenModal }) =
                   >
                     +7(912) 733-05-71
                   </a>
-                  <div onClick={onOpenModal} className=" d-flex autorization-container" >
-                    <div className="icon-user" style={{ fontSize: "30px" }} />
-                    <p className=" my-auto">Вход</p>
-                  </div>
+                  <ModalLogin />
+                  <button
+                    data-bs-target="#modalLogin"
+                    data-bs-toggle="modal"
+                    style={{ border: "none" , background: "none"}}
+                  >
+                    <div className=" d-flex autorization-container">
+                      <div className="icon-user" style={{ fontSize: "30px" }} />
+                      <p className=" my-auto">Вход</p>
+                    </div>
+                  </button>
                 </div>
                 <button
                   className="navbar-toggler mt-1"

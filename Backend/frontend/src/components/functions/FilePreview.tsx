@@ -1,14 +1,14 @@
 import { ChangeEventHandler } from "react";
 
-const uploadFile = (file: File): boolean => {
-  if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-    return false;
-  }
-  return true;
-};
-
 export const FilePreview = (): ChangeEventHandler<HTMLInputElement> => {
   return (e: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadFile = (file: File): boolean => {
+      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        return false;
+      }
+      return true;
+    };
+
     const file = e.target.files?.[0] as File;
     const image = document.getElementById("filePreview") as HTMLDivElement;
     image.innerHTML = "";
