@@ -6,7 +6,7 @@ export const FormReg: React.FC = () => {
     name="reg-form"
     >
       <div className="form-group ">
-        <div className="mb-5">
+        <div className="mb-3">
           <input
             type="text"
             className="form-control"
@@ -22,7 +22,7 @@ export const FormReg: React.FC = () => {
         </div>
 
         <div
-          className="mb-5 tooltip-element"
+          className="mb-3 tooltip-element"
           tooltip-title={`Номер должен начинаться с 8 и содержать 11 цифр.`}
         >
           <input
@@ -39,7 +39,7 @@ export const FormReg: React.FC = () => {
           />
         </div>
 
-        <div className="mb-5">
+        <div className="mb-3">
           <input
             type="email"
             className="form-control"
@@ -55,7 +55,7 @@ export const FormReg: React.FC = () => {
         </div>
 
         <div
-          className="mb-5 tooltip-element"
+          className="mb-3 tooltip-element"
           tooltip-title={`Пароль должен cодержать не менее 8 символов.`}
         >
           <input

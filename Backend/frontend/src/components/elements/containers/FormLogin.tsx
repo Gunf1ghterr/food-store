@@ -4,7 +4,7 @@ export const FormLogin: React.FC = () => {
   return (
     <form action="api/login" method="POST" id="login-form" name="login-form">
       <div className="form-group">
-        <div className="mb-5">
+        <div className="mb-3">
           <input
             type="email"
             className="form-control"
@@ -18,7 +18,7 @@ export const FormLogin: React.FC = () => {
             form="login-form"
           />
         </div>
-        <div className="mb-5">
+        <div className="mb-3">
           <input
             type="password"
             className="form-control"

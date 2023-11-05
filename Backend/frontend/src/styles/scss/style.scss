@@ -212,8 +212,6 @@ h6 {
 
 .tooltip-element {
     position: relative;
-    cursor: pointer;
-
     &::after {
         content: attr(tooltip-title);
         font-size: 0.75rem;
@@ -223,11 +221,13 @@ h6 {
         color: #fff;
         padding: 5px;
         border-radius: 10px;
-        top: 100%;
+        bottom: 100%;
         left: 50%;
         transform: translateX(-50%);
         opacity: 0;
         transition: opacity 0.3s ease;
+        pointer-events: none;
+        
     }
 
     &:hover::after {
