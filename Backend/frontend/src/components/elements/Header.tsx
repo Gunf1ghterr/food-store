@@ -31,11 +31,13 @@ export const Header: React.FC = () => {
                   >
                     +7(912) 733-05-71
                   </a>
+
                   <ModalLogin />
+
                   <button
                     data-bs-target="#modalLogin"
                     data-bs-toggle="modal"
-                    style={{ border: "none" , background: "none"}}
+                    style={{ border: "none", background: "none" }}
                   >
                     <div className=" d-flex autorization-container">
                       <div className="icon-user" style={{ fontSize: "30px" }} />

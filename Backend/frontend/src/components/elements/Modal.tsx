@@ -1,7 +1,11 @@
 import React from "react";
 import { IChildrenElement } from "../../interfaces/IChildrenElement";
 
-export const Modal: React.FC<IChildrenElement> = ({ children, modalTitle, modalId }) => {
+export const Modal: React.FC<IChildrenElement> = ({
+  children,
+  modalTitle,
+  modalId,
+}) => {
   return (
     <>
       {children}

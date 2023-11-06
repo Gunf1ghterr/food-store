@@ -1,7 +1,10 @@
 import { NavLink, useLocation } from "react-router-dom";
+import { useCart } from "../contexts/CartContext";
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
+
+  const { cartItems } = useCart();
 
   const isCurrentPage = (path: string): string => {
     return location.pathname === path ? "link-primary selected-link" : "";
@@ -9,7 +12,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <div className="navbar-sticky">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary py-1">
+      <main className="navbar navbar-expand-lg bg-body-tertiary py-1">
         <div className="container-fluid">
           <div className="container p-0">
             <div
@@ -60,14 +63,28 @@ export const Navbar: React.FC = () => {
                   </NavLink>
                 </li>
               </ul>
-              <div className="d-flex basket-container">
-                <div className="icon-basket" style={{ fontSize: "30px" }} />
-                <p className="my-auto">Корзина</p>
-              </div>
+
+              <button
+                data-bs-target="#modalCart"
+                data-bs-toggle="modal"
+                style={{ border: "none", background: "none" }}
+              >
+                <div className="d-flex basket-container">
+                  <div className="icon-basket" style={{ fontSize: "30px" }} />
+                  <p className="my-auto">
+                    {cartItems.length === 0
+                      ? "Корзина"
+                      : cartItems.reduce(
+                          (total, item) => total + item.price * item.count,
+                          0
+                        ) + " ₽"}
+                  </p>
+                </div>
+              </button>
             </div>
           </div>
         </div>
-      </nav>
+      </main>
     </div>
   );
 };

@@ -212,6 +212,7 @@ h6 {
 
 .tooltip-element {
     position: relative;
+
     &::after {
         content: attr(tooltip-title);
         font-size: 0.75rem;
@@ -227,10 +228,19 @@ h6 {
         opacity: 0;
         transition: opacity 0.3s ease;
         pointer-events: none;
-        
+
     }
 
     &:hover::after {
         opacity: 0.85;
+    }
+}
+
+.cart-plus-minus {
+    font-size: 1.4rem;
+    margin: 0;
+
+    &:hover {
+        cursor: pointer;
     }
 }

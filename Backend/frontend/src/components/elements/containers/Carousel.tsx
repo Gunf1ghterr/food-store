@@ -1,34 +1,18 @@
 import { CarouselItem } from "./CarouselItem";
+import { useEffect } from "react";
+import { useOffer } from "../../contexts/OfferContext";
 
 export const Caruosel: React.FC = () => {
+  useEffect(() => {}, []);
+
+  const { items } = useOffer();
+
   return (
     <div id="carouselExampleIndicators" className="carousel slide ">
-      <div className="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide-to="0"
-          className="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
-      </div>
       <div className="carousel-inner">
-        <CarouselItem image="./offer1.jpg" active={true}/>
-        <CarouselItem image="./offer2.jpg" active={false}/>
-        <CarouselItem image="./offer3.jpg" active={false}/>
+        {items.map((item, index) => (
+          <CarouselItem image={item.image} active={index === 0} />
+        ))}
       </div>
       <button
         className="carousel-control-prev"
