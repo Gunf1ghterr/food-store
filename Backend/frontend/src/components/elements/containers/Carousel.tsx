@@ -11,7 +11,7 @@ export const Caruosel: React.FC = () => {
     <div id="carouselExampleIndicators" className="carousel slide ">
       <div className="carousel-inner">
         {items.map((item, index) => (
-          <CarouselItem image={item.image} active={index === 0} />
+          <CarouselItem key={item.id} image={item.image} active={index === 0} />
         ))}
       </div>
       <button

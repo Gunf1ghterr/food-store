@@ -244,3 +244,14 @@ h6 {
         cursor: pointer;
     }
 }
+
+.search-input {
+    width: 200px;
+    position: fixed;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 101;
+    border: 2px solid rgb(162, 162, 162);
+    box-shadow: 0 0 5px rgb(82, 82, 82);
+}

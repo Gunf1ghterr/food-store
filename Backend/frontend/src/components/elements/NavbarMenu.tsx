@@ -1,22 +1,14 @@
 import { useLocation, NavLink } from "react-router-dom";
-import { useEffect } from "react";
 
 export const NavbarMenu: React.FC = () => {
-  useEffect(() => {
-    const currentPath: string = window.location.pathname;
-    const params: URLSearchParams = new URLSearchParams({ param: "all" });
-    const newPath: string = `${currentPath}?${params.toString()}`;
-    window.history.replaceState(null, "", newPath);
-  }, []);
-
-  const location = useLocation();
-  const searchParams: URLSearchParams = new URLSearchParams(location.search);
-  const param: string | null = searchParams.get("param");
+  const param: string | null = new URLSearchParams(useLocation().search).get(
+    "param"
+  );
 
   return (
     <nav className="navbar navbar-menu-sticky">
       <div
-        className="container bg-body-tertiary rounded-5"
+        className="container col-10 bg-body-tertiary rounded-5"
         style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.4)" }}
       >
         <NavLink

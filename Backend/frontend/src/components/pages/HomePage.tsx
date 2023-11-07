@@ -3,9 +3,17 @@ import { ProductContainer } from "../elements/containers/ProductContainer";
 import { Caruosel } from "../elements/containers/Carousel";
 import { NavbarMenu } from "../elements/NavbarMenu";
 import { IProductContainerProps } from "../../interfaces/IProductContainerProps";
+import { useLocation } from "react-router-dom";
+import { FilterParams } from "../functions/FilterParams";
+import { SearchProducts } from "../functions/SearchProducts";
 
 export const HomePage: React.FC = () => {
   const [items, setItems] = useState<IProductContainerProps[]>([]);
+  const param: string | null = new URLSearchParams(useLocation().search).get(
+    "param"
+  );
+
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -80,7 +88,7 @@ export const HomePage: React.FC = () => {
         image: "./p9.jpg",
         title: "Какие-то чебупели",
         price: 200,
-        category: "snack",
+        category: "snacks",
       },
     ]);
   }, []);
@@ -93,10 +101,23 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
       <NavbarMenu />
+      <div className="p-2">
+        <div className="row justify-content-start">
+          <input
+            className="form-control me-2 rounded-5 search-input"
+            type="search"
+            placeholder="Поиск"
+            aria-label="Поиск"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            tabIndex={1}
+          />
+        </div>
+      </div>
       <div className="container">
         <div className="row">
-          {items.map((item) => (
-            <ProductContainer {...item} />
+          {FilterParams(param, SearchProducts(items, search)).map((item) => (
+            <ProductContainer key={item.id} {...item} />
           ))}
         </div>
       </div>

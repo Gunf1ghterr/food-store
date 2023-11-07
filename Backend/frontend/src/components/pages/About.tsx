@@ -36,6 +36,7 @@ export const About: React.FC = () => {
             <div className="card p-1">
               <div className="card-body p-0">
                 <iframe
+                  title="Наш офис"
                   src="https://yandex.ru/map-widget/v1/?um=constructor%3A1bc8b4fdf571b6bbff82e5adaca2b2b0eb86a868eff82529bf6e17e47808968b&amp;source=constructor"
                   width="100%"
                   height="718"
