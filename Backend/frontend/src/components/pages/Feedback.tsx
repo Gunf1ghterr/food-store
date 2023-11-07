@@ -86,14 +86,14 @@ export const Feedback: React.FC = () => {
           </div>
         </div>
       </div>
-      <div
-        className="write-feedback"
+      <button
         data-bs-toggle="modal"
         data-bs-target="#write-feedback-modal"
         title="Оставить отзыв"
+        className="write-feedback"
       >
         <div className="icon-pencil" style={{ fontSize: "30px" }} />
-      </div>
+      </button>
       <div className="container">
         <div className="row">
           <FeedbackContainer

@@ -9,8 +9,8 @@ export const FeedbackContainer: React.FC<IFeedbackContainer> = ({
 }) => {
   return (
     <div className="col-lg-6 col-sm-12 my-3" id={String(id)}>
-      <div className="card h-100 ">
-        <div className="card-header d-flex justify-content-between">
+      <div className="card">
+        <div className="card-header d-flex justify-content-between h-auto">
           <p className="h5">{username}</p>
           <p className="h5">{date}</p>
         </div>
