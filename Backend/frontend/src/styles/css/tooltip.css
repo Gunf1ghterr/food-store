@@ -1,0 +1,19 @@
+.tooltip-element {
+  position: relative; }
+  .tooltip-element::after {
+    content: attr(tooltip-title);
+    font-size: 0.75rem;
+    display: block;
+    position: absolute;
+    background-color: #2f2f2f;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; }
+  .tooltip-element:hover::after {
+    opacity: 0.85; }

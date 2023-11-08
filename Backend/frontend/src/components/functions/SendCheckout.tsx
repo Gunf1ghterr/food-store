@@ -1,13 +1,13 @@
 import { MouseEventHandler } from "react";
 import { FormDecorator } from "./FormDecorator";
-import { ValidateFeedback } from "./ValidateFeedback";
+import { ValidateCheckout } from "./ValidateCheckout";
 
-export const SendFeedback = (): MouseEventHandler<HTMLButtonElement> => {
+export const SendCheckout = (): MouseEventHandler<HTMLButtonElement> => {
   return FormDecorator(
-    ValidateFeedback,
+    ValidateCheckout,
     async () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     },
-    "feedback-form"
+    "checkout-form"
   );
 };

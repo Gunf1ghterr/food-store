@@ -1,10 +1,9 @@
 import { SendReg } from "../../functions/SendReg";
+import { InputChanged } from "../../functions/InputChenged";
+
 export const FormReg: React.FC = () => {
   return (
-    <form action="api/login" method="POST"
-    id="reg-form"
-    name="reg-form"
-    >
+    <form action="api/login" method="POST" id="reg-form" name="reg-form">
       <div className="form-group ">
         <div className="mb-3">
           <input
@@ -14,16 +13,14 @@ export const FormReg: React.FC = () => {
             name="regNameInput"
             required
             placeholder="Введите ваше имя"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              e.currentTarget.classList.remove("error");
-            }}
+            onChange={InputChanged}
             form="reg-form"
           />
         </div>
 
         <div
           className="mb-3 tooltip-element"
-          tooltip-title={`Номер должен начинаться с 8 и содержать 11 цифр.`}
+          tooltip-title={`Номер должен начинаться с 8 и содержать 11 цифр`}
         >
           <input
             type="tel"
@@ -32,9 +29,7 @@ export const FormReg: React.FC = () => {
             name="regTelInput"
             required
             placeholder="Укажите действующий номер телефона"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              e.currentTarget.classList.remove("error");
-            }}
+            onChange={InputChanged}
             form="reg-form"
           />
         </div>
@@ -47,9 +42,7 @@ export const FormReg: React.FC = () => {
             name="regMailInput"
             required
             placeholder="Укажите действующую почту"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              e.currentTarget.classList.remove("error");
-            }}
+            onChange={InputChanged}
             form="reg-form"
           />
         </div>
@@ -60,14 +53,12 @@ export const FormReg: React.FC = () => {
         >
           <input
             type="password"
-            className="form-control tooltip-element"
+            className="form-control"
             id="regPasswordInput"
             name="regPasswordInput"
             required
             placeholder="Придумайте пароль"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              e.currentTarget.classList.remove("error");
-            }}
+            onChange={InputChanged}
             form="reg-form"
           />
         </div>
@@ -77,6 +68,7 @@ export const FormReg: React.FC = () => {
           type="submit"
           className="btn btn-success"
           onClick={SendReg()}
+          form="reg-form"
         >
           Зарегестрироваться
         </button>

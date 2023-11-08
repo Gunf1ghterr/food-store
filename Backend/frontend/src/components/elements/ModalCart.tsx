@@ -1,9 +1,12 @@
 import React from "react";
 import { useCart } from "../contexts/CartContext";
 import { CartProductContainer } from "./containers/CartProductContainer";
+import { NavLink } from "react-router-dom";
+import { useRef } from "react";
 
 export const ModalCart: React.FC = () => {
   const { cartItems } = useCart();
+  const linkRef = useRef<HTMLAnchorElement>(null);
 
   return (
     <>
@@ -46,14 +49,24 @@ export const ModalCart: React.FC = () => {
             {cartItems.length !== 0 && (
               <div className="modal-footer d-flex justify-content-between">
                 <p className="h3">
-                  Всего: {" "}
+                  Всего:{" "}
                   {cartItems.reduce(
                     (total, item) => total + item.price * item.count,
                     0
                   )}{" "}
                   ₽
                 </p>
-                <button type="button" className="btn btn-dark">
+                <NavLink
+                  to="/checkout"
+                  ref={linkRef}
+                />
+
+                <button
+                  type="button"
+                  className="btn btn-dark"
+                  data-bs-dismiss="modal"
+                  onClick={() => linkRef.current?.click()}
+                >
                   Оформить заказ
                 </button>
               </div>

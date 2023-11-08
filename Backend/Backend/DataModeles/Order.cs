@@ -11,6 +11,10 @@ namespace Backend.DataModeles
         [MaxLength(50)]
         public string Adres {  get; set; }
         public int Total { get; set; }
+        [MaxLength(200)]
+        public string? Comment {  get; set; }
+        [MaxLength(50)]
+        public string? Payment {  get; set; }
 
         public Status Status { get; set; }
 

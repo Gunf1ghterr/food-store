@@ -69,17 +69,21 @@ export const Navbar: React.FC = () => {
                 data-bs-toggle="modal"
                 style={{ border: "none", background: "none" }}
               >
-                <div className="d-flex basket-container">
-                  <div className="icon-basket" style={{ fontSize: "30px" }} />
-                  <p className="my-auto">
-                    {cartItems.length === 0
-                      ? "Корзина"
-                      : cartItems.reduce(
-                          (total, item) => total + item.price * item.count,
-                          0
-                        ) + " ₽"}
-                  </p>
-                </div>
+                {location.pathname === "/checkout" ? (
+                  <></>
+                ) : (
+                  <div className="d-flex basket-container">
+                    <div className="icon-basket" style={{ fontSize: "30px" }} />
+                    <p className="my-auto">
+                      {cartItems.length === 0
+                        ? "Корзина"
+                        : cartItems.reduce(
+                            (total, item) => total + item.price * item.count,
+                            0
+                          ) + " ₽"}
+                    </p>
+                  </div>
+                )}
               </button>
             </div>
           </div>

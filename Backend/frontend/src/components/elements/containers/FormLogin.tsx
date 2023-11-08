@@ -1,4 +1,5 @@
 import { SendLogin } from "../../functions/SendLogin";
+import { InputChanged } from "../../functions/InputChenged";
 
 export const FormLogin: React.FC = () => {
   return (
@@ -12,9 +13,7 @@ export const FormLogin: React.FC = () => {
             name="loginMailInput"
             required
             placeholder="Почта"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              e.currentTarget.classList.remove("error");
-            }}
+            onChange={InputChanged}
             form="login-form"
           />
         </div>
@@ -26,15 +25,18 @@ export const FormLogin: React.FC = () => {
             name="loginPasswordInput"
             required
             placeholder="Пароль"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              e.currentTarget.classList.remove("error");
-            }}
+            onChange={InputChanged}
             form="login-form"
           />
         </div>
       </div>
       <div className="modal-footer">
-        <button type="submit" className="btn btn-primary" onClick={SendLogin()}>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={SendLogin()}
+          form="login-form"
+        >
           Войти
         </button>
       </div>

@@ -9,7 +9,7 @@ namespace Backend.DataModeles
         public int Customer_Id { get; set; }
         public string message { get; set; }
         [MaxLength(50)]
-        public string Image { get; set; }
+        public string? Image { get; set; }
 
         public Customer Customer { get; set; }
     }

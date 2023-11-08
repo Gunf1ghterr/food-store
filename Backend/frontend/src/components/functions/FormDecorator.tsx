@@ -12,9 +12,12 @@ export const FormDecorator = (
       const error: number = formValidate(form);
       if (error === 0) {
         const spinner = document.getElementById(
-          formName === "feedback-form" ? "spinner-feedback" : "spinner"
+          formName === "feedback-form"
+            ? "spinner-feedback"
+            : formName === "checkout-form"
+            ? "spinner-checkout"
+            : "spinner"
         ) as HTMLDivElement;
-        console.log(spinner);
         form.classList.add("disabled");
         spinner.classList.add("spinner");
 
