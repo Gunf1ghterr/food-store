@@ -35,7 +35,7 @@ export const Agreement: React.FC = () => {
             <div className="card">
               <h2 className="card-header">Пользовательское соглашение</h2>
               <div className="card-body">
-                <h6 className="card-title">1. Термины и определения</h6>
+                <p className="card-title h6">1. Термины и определения</p>
                 <p className="card-text small">
                   - Пользователь - лицо, использующее Сервис на условиях,
                   предусмотренных в Пользовательском соглашении, с целью
@@ -64,7 +64,7 @@ export const Agreement: React.FC = () => {
                   иное не следует из Пользовательского соглашения или
                   соответствующего документа <br />{" "}
                 </p>
-                <h6 className="card-title">2. Общие положения</h6>
+                <p className="card-title h6">2. Общие положения</p>
                 <p className="card-text small">
                   -Начиная использовать Сервис / его отдельные функции,
                   Пользователь считается принявшим Пользовательское соглашение,
@@ -101,7 +101,7 @@ export const Agreement: React.FC = () => {
                   запрашиваемые на Сервисе в форме регистрации.
                   <br />{" "}
                 </p>
-                <h6 className="card-title">3. Прочие условия</h6>
+                <p className="card-title h6">3. Прочие условия</p>
                 <p className="card-text small">
                   -Пользователь подтверждает, что он является дееспособным и
                   достиг возраста, необходимого в соответствии с
