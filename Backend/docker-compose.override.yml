@@ -31,6 +31,7 @@ services:
         - ./SQLData/log:/var/opt/mssql/log
         - ./SQLData/secrets:/var/opt/mssql/secrets
 
+
 secrets:
   mssql_password:
     file: .env

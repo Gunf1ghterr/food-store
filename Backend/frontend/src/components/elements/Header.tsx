@@ -1,6 +1,8 @@
 import { ModalLogin } from "./ModalLogin";
+import { useAuth } from "../contexts/AuthContext";
 
 export const Header: React.FC = () => {
+  const { user } = useAuth();
   return (
     <>
       <header>
@@ -34,16 +36,33 @@ export const Header: React.FC = () => {
 
                   <ModalLogin />
 
-                  <button
-                    data-bs-target="#modalLogin"
-                    data-bs-toggle="modal"
-                    style={{ border: "none", background: "none" }}
-                  >
-                    <div className=" d-flex autorization-container">
-                      <div className="icon-user" style={{ fontSize: "30px" }} />
-                      <p className=" my-auto">Вход</p>
-                    </div>
-                  </button>
+                  {!user && (
+                    <button
+                      data-bs-target="#modalLogin"
+                      data-bs-toggle="modal"
+                      style={{ border: "none", background: "none" }}
+                    >
+                      <div className=" d-flex autorization-container">
+                        <div
+                          className="icon-user"
+                          style={{ fontSize: "30px" }}
+                        />
+                        <p className=" my-auto">Вход</p>
+                      </div>
+                    </button>
+                  )}
+
+                  {user && (
+                    <button
+                      data-bs-target="#modalUser"
+                      data-bs-toggle="modal"
+                      style={{ border: "none", background: "none" }}
+                    >
+                      <div className=" d-flex autorization-container p-2">
+                        <p className="my-auto text-in-header">Кабинет</p>
+                      </div>
+                    </button>
+                  )}
                 </div>
                 <button
                   className="navbar-toggler mt-1"

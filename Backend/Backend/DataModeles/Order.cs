@@ -8,7 +8,7 @@ namespace Backend.DataModeles
         public int Customer_Id { get; set; }
         public DateTime Date { get; set; }
         public int Status_Id { get; set; }
-        [MaxLength(50)]
+        [MaxLength(200)]
         public string Adres {  get; set; }
         public int Total { get; set; }
         [MaxLength(200)]

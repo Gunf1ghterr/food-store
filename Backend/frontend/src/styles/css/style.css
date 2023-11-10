@@ -162,3 +162,6 @@ h6:hover {
   z-index: 101;
   border: 2px solid #a2a2a2;
   box-shadow: 0 0 5px #525252; }
+
+.text-in-header:hover {
+  cursor: pointer; }

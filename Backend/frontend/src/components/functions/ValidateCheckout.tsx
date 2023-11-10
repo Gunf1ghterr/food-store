@@ -20,7 +20,7 @@ export const ValidateCheckout = (_form: HTMLFormElement): number => {
       AddError(input);
       error++;
     }
-    if (input.value.trim().length > 50) {
+    if (input.value.trim().length > 50 && input.id !== "checkout-address") {
       AddError(input);
       error++;
     }

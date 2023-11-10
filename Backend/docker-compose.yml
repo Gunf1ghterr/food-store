@@ -4,8 +4,8 @@ services:
   back:
     image: ${DOCKER_REGISTRY-}backend
     build:
-      context: .
-      dockerfile: Backend/Dockerfile
+      context: ./Backend
+      dockerfile: Dockerfile
 
   front:
     image: client

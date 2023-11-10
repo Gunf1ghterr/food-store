@@ -14,14 +14,12 @@ namespace Backend
         public DbSet<Product> products { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddEnvironmentVariables()
-            .AddJsonFile("env.json", optional: true);
-            IConfiguration configuration = builder.Build();
-            string? ConnectionString = configuration["ConnectionString"];
+            DotNetEnv.Env.Load();
+
+            var ConnectionString = Environment.GetEnvironmentVariable("ConnectionString");
+            System.Console.WriteLine(ConnectionString);
+
             // Для миграции писать в соединении "localhost,1433" !!!!!;
-            Console.WriteLine(ConnectionString);
             optionsBuilder.UseSqlServer(ConnectionString);
         }
 

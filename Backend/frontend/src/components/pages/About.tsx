@@ -1,3 +1,5 @@
+import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
+
 export const About: React.FC = () => {
   return (
     <main>
@@ -35,19 +37,33 @@ export const About: React.FC = () => {
           <div className="col-12 col-lg-6 my-3">
             <div className="card p-1">
               <div className="card-body p-0">
-                <iframe
-                  title="Наш офис"
-                  src="https://yandex.ru/map-widget/v1/?um=constructor%3A1bc8b4fdf571b6bbff82e5adaca2b2b0eb86a868eff82529bf6e17e47808968b&amp;source=constructor"
-                  width="100%"
-                  height="718"
-                  frameBorder="0"
-                ></iframe>
-                <script
-                  type="text/javascript"
-                  charSet="utf-8"
-                  async
-                  src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1bc8b4fdf571b6bbff82e5adaca2b2b0eb86a868eff82529bf6e17e47808968b&amp;width=100%25&amp;height=718&amp;lang=ru_RU&amp;scroll=true"
-                ></script>
+                <YMaps>
+                  <Map
+                    defaultState={{
+                      center: [58.602658, 49.666612],
+                      zoom: 15,
+                      controls: ["zoomControl", "fullscreenControl"],
+                    }}
+                    modules={[
+                      "control.ZoomControl",
+                      "control.FullscreenControl",
+                    ]}
+                    options={{
+                      suppressMapOpenBlock: true,
+                    }}
+                    width="100%"
+                    height="700px"
+                    onClick={(e: any) => {
+                      console.log(e.get("coords"));
+                    }}
+                  >
+                    <Placemark
+                      modules={["geoObject.addon.balloon"]}
+                      defaultGeometry={[58.602658, 49.666612]}
+                      properties={{ balloonContentHeader: "Мы тут" }}
+                    />
+                  </Map>
+                </YMaps>
               </div>
             </div>
           </div>

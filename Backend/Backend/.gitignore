@@ -1,4 +1,4 @@
 /obj
 /bin
-env.json
+.env
 .vs

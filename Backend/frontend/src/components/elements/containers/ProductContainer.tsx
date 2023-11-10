@@ -2,6 +2,7 @@ import { IProductContainerProps } from "../../../interfaces/IProductContainerPro
 import { Modal } from "../Modal";
 import React from "react";
 import { useCart } from "../../contexts/CartContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const ProductContainer: React.FC<IProductContainerProps> = ({
   title,
@@ -13,6 +14,7 @@ export const ProductContainer: React.FC<IProductContainerProps> = ({
   const { addItemToCart, removeItemFromCart, cartItems } = useCart();
   const cartItem = cartItems.find((item) => item.id === id);
   const count = cartItem ? cartItem.count : 0;
+  const { user } = useAuth();
 
   const handleAddToCart = () => {
     if (count < 10) {
@@ -50,32 +52,32 @@ export const ProductContainer: React.FC<IProductContainerProps> = ({
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
             <p className="card-text">{description}</p>
-            <div className="d-flex justify-content-between text-center">
-              {count !== 0 && (
+
+            {user && (
+              <div className="d-flex justify-content-between text-center">
+                {count !== 0 && (
+                  <button
+                    className="btn btn-danger rounded-circle p-0 mx-1"
+                    type="button"
+                    style={{ width: "40px", height: "40px" }}
+                    onClick={handleRemoveFromCart}
+                  >
+                    <p className="cart-plus-minus">-</p>
+                  </button>
+                )}
+
+                <p className="h5 my-auto">{count === 0 ? "" : count}</p>
                 <button
-                  className="btn btn-danger rounded-circle p-0 mx-1"
+                  className="btn btn-dark rounded-circle p-0 mx-1"
                   type="button"
                   style={{ width: "40px", height: "40px" }}
-                  onClick={handleRemoveFromCart}
+                  onClick={handleAddToCart}
                 >
-                  <p className="cart-plus-minus" >
-                    -
-                  </p>
+                  <p className="cart-plus-minus">+</p>
                 </button>
-              )}
+              </div>
+            )}
 
-              <p className="h5 my-auto">{count === 0 ? "" : count}</p>
-              <button
-                className="btn btn-dark rounded-circle p-0 mx-1"
-                type="button"
-                style={{ width: "40px", height: "40px" }}
-                onClick={handleAddToCart}
-              >
-                <p className="cart-plus-minus" >
-                  +
-                </p>
-              </button>
-            </div>
             <div className="d-flex justify-content-center">
               <p className="h3">{String(price)} ₽</p>
             </div>

@@ -1,9 +1,10 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
-
+  const { user } = useAuth();
   const { cartItems } = useCart();
 
   const isCurrentPage = (path: string): string => {
@@ -69,12 +70,12 @@ export const Navbar: React.FC = () => {
                 data-bs-toggle="modal"
                 style={{ border: "none", background: "none" }}
               >
-                {location.pathname === "/checkout" ? (
+                {location.pathname === "/checkout" || !user ? (
                   <></>
                 ) : (
                   <div className="d-flex basket-container">
                     <div className="icon-basket" style={{ fontSize: "30px" }} />
-                    <p className="my-auto">
+                    <p className="my-auto text-in-header">
                       {cartItems.length === 0
                         ? "Корзина"
                         : cartItems.reduce(

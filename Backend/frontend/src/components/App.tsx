@@ -6,28 +6,31 @@ import { OfferProvider } from "./contexts/OfferContext";
 import { Layout } from "./elements/Layout";
 import { ErrorPage } from "./pages/ErrorPage";
 import * as Pages from "./pages/LazyPages";
+import { AuthProvider } from "./contexts/AuthContext";
 
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <CartProvider>
-        <OfferProvider>
-          <Routes>
-            <Route element={<Layout />} path="/">
-              <Route element={<Pages.HomePage />} index />
-              <Route element={<Pages.Payments />} path="/payments" />
-              <Route element={<Pages.Agreement />} path="/agreement" />
-              <Route element={<Pages.Policy />} path="/privacy-policy" />
-              <Route element={<Pages.Offers />} path="/offers" />
-              <Route element={<Pages.About />} path="/about" />
-              <Route element={<Pages.Feedback />} path="/feedback" />
-              <Route element={<Pages.Checkout />} path="/checkout" />
-            </Route>
-            <Route element={<ErrorPage />} path="*" />
-          </Routes>
-          <ModalCart />
-        </OfferProvider>
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <OfferProvider>
+            <Routes>
+              <Route element={<Layout />} path="/">
+                <Route element={<Pages.HomePage />} index />
+                <Route element={<Pages.Payments />} path="/payments" />
+                <Route element={<Pages.Agreement />} path="/agreement" />
+                <Route element={<Pages.Policy />} path="/privacy-policy" />
+                <Route element={<Pages.Offers />} path="/offers" />
+                <Route element={<Pages.About />} path="/about" />
+                <Route element={<Pages.Feedback />} path="/feedback" />
+                <Route element={<Pages.Checkout />} path="/checkout" />
+              </Route>
+              <Route element={<ErrorPage />} path="*" />
+            </Routes>
+            <ModalCart />
+          </OfferProvider>
+        </CartProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 };

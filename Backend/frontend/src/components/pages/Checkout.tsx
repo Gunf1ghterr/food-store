@@ -3,10 +3,21 @@ import { CheckoutContainer } from "../elements/containers/CkeckoutContainer";
 import { useEffect, useState } from "react";
 import { SendCheckout } from "../functions/SendCheckout";
 import { InputChanged } from "../functions/InputChenged";
+import { useAuth } from "../contexts/AuthContext";
+import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 
 export const Checkout: React.FC = () => {
   const { cartItems } = useCart();
+  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [placemarkCoordinates, setPlacemarkCoordinates] = useState<number[]>(
+    []
+  );
+  const [showMap, setShowMap] = useState(false);
 
+  const { user } = useAuth();
   const [total, setTotal] = useState(0);
   useEffect(() => {
     setTotal(
@@ -15,7 +26,47 @@ export const Checkout: React.FC = () => {
     if (cartItems.length === 0) {
       window.location.href = "/";
     }
-  }, [cartItems]);
+
+    if (user) {
+      setUsername(user.username);
+      setPhone(user.phone);
+      setEmail(user.email);
+    }
+  }, [cartItems, user]);
+
+  const getAddressFromCoordinates = async (coords: any) => {
+    const coordsToString = coords.reverse().join(",");
+    placemarkCoordinates.reverse().join(",");
+    const connect = `https://geocode-maps.yandex.ru/1.x/?apikey=${process.env.REACT_APP_API_KEY}&geocode=${coordsToString}&format=json`;
+
+    try {
+      const response = await fetch(connect, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+
+      const newAddress =
+        data.response.GeoObjectCollection.featureMember[0].GeoObject
+          .description +
+        ", " +
+        data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
+
+      setAddress(newAddress);
+    } catch (error) {
+      setAddress("Не удалось определить адрес");
+      console.error("Ошибка при выполнении запроса:", error);
+    }
+  };
+
+  const handleMapClick = (e: any) => {
+    const clickedCoords: number[] = e.get("coords");
+    setPlacemarkCoordinates(clickedCoords);
+
+    getAddressFromCoordinates(clickedCoords.slice());
+  };
 
   return (
     <main>
@@ -66,7 +117,7 @@ export const Checkout: React.FC = () => {
           <div className="col-xl-8 col-lg-6 col-sm-12 my-3">
             <div className="card">
               <div className="card-header">
-                <p className="h5">Отправитель</p>
+                <p className="h5">Получатель</p>
               </div>
               <form
                 action="api/newOrder"
@@ -84,7 +135,11 @@ export const Checkout: React.FC = () => {
                       id="checkout-name"
                       name="checkout-name"
                       form="checkout-form"
-                      onChange={InputChanged}
+                      onChange={(e) => {
+                        InputChanged(e);
+                        setUsername(e.target.value);
+                      }}
+                      value={username}
                     />
                     <div
                       className="tooltip-element w-25 m-0 p-0"
@@ -98,7 +153,11 @@ export const Checkout: React.FC = () => {
                         id="checkout-phone"
                         name="checkout-phone"
                         form="checkout-form"
-                        onChange={InputChanged}
+                        onChange={(e) => {
+                          InputChanged(e);
+                          setPhone(e.target.value);
+                        }}
+                        value={phone}
                       />
                     </div>
                     <input
@@ -109,19 +168,29 @@ export const Checkout: React.FC = () => {
                       id="checkout-email"
                       name="checkout-email"
                       form="checkout-form"
-                      onChange={InputChanged}
+                      onChange={(e) => {
+                        InputChanged(e);
+                        setEmail(e.target.value);
+                      }}
+                      value={email}
                     />
                   </div>
                   <div className="row">
-                    <input
-                      type="text"
+                    <textarea
                       className="form-control w-75 m-2"
                       placeholder="Адрес"
                       required
                       id="checkout-address"
                       name="checkout-address"
                       form="checkout-form"
-                      onChange={InputChanged}
+                      value={address.toString()}
+                      onChange={(e) => {
+                        InputChanged(e);
+                        setAddress(e.target.value);
+                      }}
+                      maxLength={200}
+                      style={{ resize: "none" }}
+                      rows={3}
                     />
                   </div>
                   <div className="row">
@@ -149,6 +218,60 @@ export const Checkout: React.FC = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+
+          <div className="col-12 mb-3 ">
+            <div className="card">
+              <div className="card-header d-flex justify-content-center">
+                <p className="h4">Карта</p>
+                <div className="form-check form-switch mx-3 mt-2">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckChecked"
+                    onClick={() => setShowMap(!showMap)}
+                  />
+                </div>
+              </div>
+
+              {showMap && (
+                <div className="card-body p-0">
+                  <YMaps
+                    enterprise
+                    query={{ apikey: String(process.env.REACT_APP_API_KEY) }}
+                  >
+                    <Map
+                      defaultState={{
+                        center: [58.602658, 49.666612],
+                        zoom: 14,
+                        controls: ["zoomControl", "fullscreenControl"],
+                      }}
+                      modules={[
+                        "control.ZoomControl",
+                        "control.FullscreenControl",
+                      ]}
+                      options={{
+                        suppressMapOpenBlock: true,
+                      }}
+                      width="100%"
+                      height="500px"
+                      onClick={handleMapClick}
+                    >
+                      <Placemark
+                        geometry={placemarkCoordinates}
+                        id="position"
+                        modules={["geoObject.addon.balloon"]}
+                        properties={{ balloonContentHeader: "Доставить сюда" }}
+                        options={{
+                          preset: "islands#redDotIcon",
+                        }}
+                      />
+                    </Map>
+                  </YMaps>
+                </div>
+              )}
             </div>
           </div>
         </div>
