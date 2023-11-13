@@ -1,5 +1,6 @@
 import { ModalLogin } from "./ModalLogin";
 import { useAuth } from "../contexts/AuthContext";
+import { ModalUser } from "./ModalUser";
 
 export const Header: React.FC = () => {
   const { user } = useAuth();
@@ -33,12 +34,11 @@ export const Header: React.FC = () => {
                   >
                     +7(912) 733-05-71
                   </a>
+                  {!user ? <ModalLogin /> : <ModalUser />}
 
-                  <ModalLogin />
-
-                  {!user && (
+                  {!user ? (
                     <button
-                      data-bs-target="#modalLogin"
+                      data-bs-target={!user ? "#modalLogin" : "#modalUser"}
                       data-bs-toggle="modal"
                       style={{ border: "none", background: "none" }}
                     >
@@ -50,11 +50,9 @@ export const Header: React.FC = () => {
                         <p className=" my-auto">Вход</p>
                       </div>
                     </button>
-                  )}
-
-                  {user && (
+                  ) : (
                     <button
-                      data-bs-target="#modalUser"
+                      data-bs-target={!user ? "#modalLogin" : "#modalUser"}
                       data-bs-toggle="modal"
                       style={{ border: "none", background: "none" }}
                     >

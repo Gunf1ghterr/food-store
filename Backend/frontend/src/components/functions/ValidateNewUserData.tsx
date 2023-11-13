@@ -1,7 +1,7 @@
 import { AddError } from "./AddError";
 import { RemoveError } from "./RemoveError";
 
-export const ValidateReg = (_form: HTMLFormElement): number => {
+export const ValidateNewUserData = (_form: HTMLFormElement): number => {
   function isValidEmail(email: string): boolean {
     const emailPattern: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailPattern.test(email);
@@ -12,13 +12,9 @@ export const ValidateReg = (_form: HTMLFormElement): number => {
     return tel.length === 11 && numericRegex.test(tel);
   }
 
-  function isValidPassword(password: string): boolean {
-    return password.length >= 8;
-  }
-
   function isValidDate(date: string): boolean {
     const datePattern: RegExp =
-    /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(19\d{2}|20\d{2})$/;
+      /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(19\d{2}|20\d{2})$/;
     return datePattern.test(date);
   }
 
@@ -39,15 +35,12 @@ export const ValidateReg = (_form: HTMLFormElement): number => {
       AddError(input);
       error++;
     }
-    if (input.type === "password" && !isValidPassword(input.value.trim())) {
-      AddError(input);
-      error++;
-    }
     if (input.type === "tel" && !isValidateTel(input.value.trim())) {
       AddError(input);
       error++;
     }
-    if (input.id === "regBirthdayInput" && !isValidDate(input.value.trim())) {
+
+    if (input.id === "user-birthday" && !isValidDate(input.value.trim())) {
       AddError(input);
       error++;
     }

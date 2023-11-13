@@ -16,6 +16,8 @@ export const SendLogin = (): MouseEventHandler<HTMLButtonElement> => {
         token: "123",
         phone: "89999999999",
         email: "test@testmail.ru",
+        date: "01.01.2022",
+        birthday: "2015.11.21",
       });
       document.cookie = `token=${1}`;
       window.location.href = "/";

@@ -12,6 +12,8 @@ namespace Backend.DataModeles
         public string Mail { get; set; }
         [MaxLength(50)]
         public string Phone { get; set; }
+        [MaxLength(25)]
+        public string Birthday { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
         public ICollection<Order> Orders { get; set; }
     }

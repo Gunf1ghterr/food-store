@@ -15,6 +15,10 @@ namespace Backend.DataModeles
         public string? Comment {  get; set; }
         [MaxLength(50)]
         public string? Payment {  get; set; }
+        [MaxLength(50)]
+        public string Recipient { get; set; }
+        [MaxLength(25)]
+        public string? Recipient_phone { get; set; }
 
         public Status Status { get; set; }
 

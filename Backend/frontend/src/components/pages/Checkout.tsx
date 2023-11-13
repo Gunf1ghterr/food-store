@@ -10,7 +10,6 @@ export const Checkout: React.FC = () => {
   const { cartItems } = useCart();
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [placemarkCoordinates, setPlacemarkCoordinates] = useState<number[]>(
     []
@@ -30,7 +29,6 @@ export const Checkout: React.FC = () => {
     if (user) {
       setUsername(user.username);
       setPhone(user.phone);
-      setEmail(user.email);
     }
   }, [cartItems, user]);
 
@@ -45,8 +43,6 @@ export const Checkout: React.FC = () => {
       });
 
       const data = await response.json();
-
-      console.log(data);
 
       const newAddress =
         data.response.GeoObjectCollection.featureMember[0].GeoObject
@@ -160,20 +156,6 @@ export const Checkout: React.FC = () => {
                         value={phone}
                       />
                     </div>
-                    <input
-                      type="email"
-                      className="form-control w-25 m-2"
-                      placeholder="E-mail"
-                      required
-                      id="checkout-email"
-                      name="checkout-email"
-                      form="checkout-form"
-                      onChange={(e) => {
-                        InputChanged(e);
-                        setEmail(e.target.value);
-                      }}
-                      value={email}
-                    />
                   </div>
                   <div className="row">
                     <textarea

@@ -20,6 +20,22 @@ export const FormReg: React.FC = () => {
 
         <div
           className="mb-3 tooltip-element"
+          tooltip-title={`День рождения (дд.мм.гггг)`}
+        >
+          <input
+            type="text"
+            className="form-control"
+            id="regBirthdayInput"
+            name="regBirthdayInput"
+            required
+            placeholder="День рождения"
+            onChange={InputChanged}
+            form="reg-form"
+          />
+        </div>
+
+        <div
+          className="mb-3 tooltip-element"
           tooltip-title={`Номер должен начинаться с 8 и содержать 11 цифр`}
         >
           <input
