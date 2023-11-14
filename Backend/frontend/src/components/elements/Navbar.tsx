@@ -1,6 +1,8 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import { useAuth } from "../contexts/AuthContext";
+import { FaShoppingCart } from "react-icons/fa";
+
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -74,7 +76,7 @@ export const Navbar: React.FC = () => {
                   <></>
                 ) : (
                   <div className="d-flex basket-container">
-                    <div className="icon-basket" style={{ fontSize: "30px" }} />
+                    <FaShoppingCart style={{fontSize: "30px", margin: "7px"}}/>
                     <p className="my-auto text-in-header">
                       {cartItems.length === 0
                         ? "Корзина"

@@ -2,6 +2,8 @@ import { FeedbackContainer } from "../elements/containers/FeedbackContainer";
 import { FeedbackModal } from "../elements/containers/FeedbackModal";
 import React, { useEffect, useState } from "react";
 import { IFeedbackContainer } from "../../interfaces/IFeedbackContainer";
+import { GoPencil } from "react-icons/go";
+
 
 export const Feedback: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<IFeedbackContainer[]>([]);
@@ -64,7 +66,7 @@ export const Feedback: React.FC = () => {
         title="Оставить отзыв"
         className="write-feedback"
       >
-        <div className="icon-pencil" style={{ fontSize: "30px" }} />
+        <GoPencil style={{fontSize: "30px", margin: "7px"}}/>
       </button>
       <div className="container">
         <div className="row">

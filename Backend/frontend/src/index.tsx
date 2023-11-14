@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { App } from "./components/App";
-import "./styles/css/fontello.css";
 import "./styles/css/style.css";
 import "./styles/css/spinner.css";
 import "./styles/css/tooltip.css";

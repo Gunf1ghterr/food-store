@@ -1,6 +1,7 @@
 import { ModalLogin } from "./ModalLogin";
 import { useAuth } from "../contexts/AuthContext";
 import { ModalUser } from "./ModalUser";
+import { FaUser } from "react-icons/fa";
 
 export const Header: React.FC = () => {
   const { user } = useAuth();
@@ -43,10 +44,7 @@ export const Header: React.FC = () => {
                       style={{ border: "none", background: "none" }}
                     >
                       <div className=" d-flex autorization-container">
-                        <div
-                          className="icon-user"
-                          style={{ fontSize: "30px" }}
-                        />
+                        <FaUser style={{fontSize: "30px", margin: "7px"}}/>
                         <p className=" my-auto">Вход</p>
                       </div>
                     </button>
