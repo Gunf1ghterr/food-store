@@ -5,6 +5,8 @@ import { SendCheckout } from "../functions/SendCheckout";
 import { InputChanged } from "../functions/InputChenged";
 import { useAuth } from "../contexts/AuthContext";
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
+import { useAddress } from "../../hooks/useAddress";
+import { Navigate } from "react-router-dom";
 
 export const Checkout: React.FC = () => {
   const { cartItems } = useCart();
@@ -14,7 +16,19 @@ export const Checkout: React.FC = () => {
   const [placemarkCoordinates, setPlacemarkCoordinates] = useState<number[]>(
     []
   );
+  const [coords, setCoords] = useState("");
   const [showMap, setShowMap] = useState(false);
+
+  const { data, isSuccess } = useAddress(
+    `https://geocode-maps.yandex.ru/1.x/?apikey=${process.env.REACT_APP_API_KEY}&geocode=${coords}&format=json`,
+    showMap
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      setAddress(`${data?.description || ""} ${data?.name}`);
+    }
+  }, [data, isSuccess]);
 
   const { user } = useAuth();
   const [total, setTotal] = useState(0);
@@ -22,46 +36,16 @@ export const Checkout: React.FC = () => {
     setTotal(
       cartItems.reduce((total, item) => total + item.price * item.count, 0)
     );
-    if (cartItems.length === 0) {
-      window.location.href = "/";
-    }
-
     if (user) {
       setUsername(user.username);
       setPhone(user.phone);
     }
   }, [cartItems, user]);
 
-  const getAddressFromCoordinates = async (coords: any) => {
-    const coordsToString = coords.reverse().join(",");
-    placemarkCoordinates.reverse().join(",");
-    const connect = `https://geocode-maps.yandex.ru/1.x/?apikey=${process.env.REACT_APP_API_KEY}&geocode=${coordsToString}&format=json`;
-
-    try {
-      const response = await fetch(connect, {
-        method: "GET",
-      });
-
-      const data = await response.json();
-
-      const newAddress =
-        data.response.GeoObjectCollection.featureMember[0].GeoObject
-          .description +
-        ", " +
-        data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-
-      setAddress(newAddress);
-    } catch (error) {
-      setAddress("Не удалось определить адрес");
-      console.error("Ошибка при выполнении запроса:", error);
-    }
-  };
-
   const handleMapClick = (e: any) => {
     const clickedCoords: number[] = e.get("coords");
     setPlacemarkCoordinates(clickedCoords);
-
-    getAddressFromCoordinates(clickedCoords.slice());
+    setCoords(clickedCoords.slice().reverse().join(","));
   };
 
   return (
@@ -258,6 +242,7 @@ export const Checkout: React.FC = () => {
           </div>
         </div>
       </div>
+      {!cartItems.length && <Navigate to="/" replace={true} />}
     </main>
   );
 };

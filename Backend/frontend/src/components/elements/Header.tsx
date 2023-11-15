@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
                       alt="Logo"
                       width="50"
                       height="50"
-                      title="Food-Store"
+                      title="🍴"
                     />
                   </div>
                   <div className="my-auto px-2">
@@ -54,7 +54,7 @@ export const Header: React.FC = () => {
                       data-bs-toggle="modal"
                       style={{ border: "none", background: "none" }}
                     >
-                      <div className=" d-flex autorization-container p-2">
+                      <div className="d-flex autorization-container p-2">
                         <p className="my-auto text-in-header">Кабинет</p>
                       </div>
                     </button>
