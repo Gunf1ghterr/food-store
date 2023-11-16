@@ -10,7 +10,6 @@ export const useAddress = (con: string, showMap: boolean) => {
     retry: false,
     refetchOnWindowFocus: false,
     enabled: showMap,
-    gcTime: 0,
-    staleTime: 0,
+    staleTime: Infinity,
   });
 };
