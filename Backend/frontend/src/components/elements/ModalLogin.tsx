@@ -17,19 +17,11 @@ export const ModalLogin: React.FC = () => {
       >
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                {!login ? "Вход" : "Регистрация"}
-              </h1>
-              <div className="form-check form-switch mx-3 mt-2">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckChecked"
-                  onClick={() => setLogin(!login)}
-                />
-              </div>
+            <div className="d-flex justify-content-between p-3">
+              <h3 className="modal-title fs-5" id="staticBackdropLabel"
+              >
+                {login ? "Регистрация" : "Вход"}
+              </h3>
               <button
                 type="button"
                 className="btn-close"
@@ -37,9 +29,17 @@ export const ModalLogin: React.FC = () => {
                 aria-label="Закрыть"
               ></button>
             </div>
-            <div className="modal-body">
+            <div className="py-1 px-3" style={{  }}>
               {!login ? <FormLogin /> : <FormReg />}
               <div id="spinner"></div>
+            </div>
+            <div className="d-flex justify-content-center py-1">
+            <button className="btn btn-link" id="staticBackdropLabel"
+                onClick={() => setLogin(!login)}
+                type="button"
+              >
+                {login ? "Войти" : "Зарегистрироваться"}
+              </button>
             </div>
           </div>
         </div>

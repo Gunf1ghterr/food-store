@@ -9,6 +9,7 @@ export const Offers: React.FC = () => {
         <div className="row">
           {items.map((item) => (
             <OfferContainer
+              key={item.id}
               id={item.id}
               title={item.title}
               image={item.image}

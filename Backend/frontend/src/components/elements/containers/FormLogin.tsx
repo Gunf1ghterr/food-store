@@ -30,7 +30,7 @@ export const FormLogin: React.FC = () => {
           />
         </div>
       </div>
-      <div className="modal-footer">
+      <div className="d-flex justify-content-center">
         <button
           type="submit"
           className="btn btn-primary"

@@ -3,26 +3,27 @@ import { CheckoutContainer } from "../elements/containers/CkeckoutContainer";
 import { useEffect, useState } from "react";
 import { SendCheckout } from "../functions/SendCheckout";
 import { InputChanged } from "../functions/InputChenged";
-import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import { CheckoutMap } from "../elements/CheckoutMap";
+import { useCurrentOrder } from "../contexts/CurrentOrderContext";
 
 export const Checkout: React.FC = () => {
+  const { currentOrder, setCurrentOrder } = useCurrentOrder();
   const { cartItems } = useCart();
-  const [username, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const { user } = useAuth();
   const [total, setTotal] = useState(0);
   useEffect(() => {
     setTotal(
       cartItems.reduce((total, item) => total + item.price * item.count, 0)
     );
-    if (user) {
-      setUsername(user.username);
-      setPhone(user.phone);
+  }, [cartItems]);
+
+  useEffect(() => {
+    if (address) {
+      setCurrentOrder({ ...currentOrder, address });
     }
-  }, [cartItems, user]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   return (
     <main>
@@ -93,9 +94,12 @@ export const Checkout: React.FC = () => {
                       form="checkout-form"
                       onChange={(e) => {
                         InputChanged(e);
-                        setUsername(e.target.value);
+                        setCurrentOrder({
+                          ...currentOrder,
+                          recipient: e.target.value,
+                        });
                       }}
-                      value={username}
+                      value={currentOrder.recipient}
                     />
                     <div
                       className="tooltip-element w-25 m-0 p-0"
@@ -111,9 +115,12 @@ export const Checkout: React.FC = () => {
                         form="checkout-form"
                         onChange={(e) => {
                           InputChanged(e);
-                          setPhone(e.target.value);
+                          setCurrentOrder({
+                            ...currentOrder,
+                            recipient_phone: e.target.value,
+                          });
                         }}
-                        value={phone}
+                        value={currentOrder.recipient_phone}
                       />
                     </div>
                   </div>
@@ -125,9 +132,13 @@ export const Checkout: React.FC = () => {
                       id="checkout-address"
                       name="checkout-address"
                       form="checkout-form"
-                      value={address.toString()}
+                      value={currentOrder.address}
                       onChange={(e) => {
                         InputChanged(e);
+                        setCurrentOrder({
+                          ...currentOrder,
+                          address: e.target.value,
+                        });
                         setAddress(e.target.value);
                       }}
                       maxLength={200}
@@ -144,7 +155,14 @@ export const Checkout: React.FC = () => {
                       style={{ resize: "none" }}
                       maxLength={200}
                       form="checkout-form"
-                      onChange={InputChanged}
+                      onChange={(e) => {
+                        InputChanged(e);
+                        setCurrentOrder({
+                          ...currentOrder,
+                          comment: e.target.value,
+                        });
+                      }}
+                      value={currentOrder.comment}
                       rows={3}
                     ></textarea>
                   </div>

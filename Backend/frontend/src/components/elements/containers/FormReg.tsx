@@ -79,7 +79,7 @@ export const FormReg: React.FC = () => {
           />
         </div>
       </div>
-      <div className="modal-footer">
+      <div className="d-flex justify-content-center">
         <button
           type="submit"
           className="btn btn-success"
@@ -89,6 +89,7 @@ export const FormReg: React.FC = () => {
           Зарегестрироваться
         </button>
       </div>
+
       <div
         className="alert alert-danger d-none mx-3"
         id="regAlert"

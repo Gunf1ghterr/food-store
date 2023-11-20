@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { SendNewUserData } from "../../functions/SendNewUserData";
+import moment from "moment";
 
 export const FormUser: React.FC = () => {
   const { user } = useAuth();
@@ -8,13 +9,13 @@ export const FormUser: React.FC = () => {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [birthday, setBirthday] = useState<Date | null>(null);
 
   useEffect(() => {
     setUsername(user?.username as string);
     setPhone(user?.phone as string);
     setEmail(user?.email as string);
-    setBirthday(user?.birthday as string);
+    setBirthday(user?.birthday as Date);
   }, [user]);
   return (
     <form action="api/new_user_data" method="POST" id="user-form">
@@ -38,7 +39,7 @@ export const FormUser: React.FC = () => {
           name="user-date"
           form="user-form"
           placeholder="Дата регистрации"
-          value={user?.date || ""}
+          value={moment(user?.date).format("DD.MM.YYYY")}
           disabled
         />
       </div>
@@ -54,8 +55,15 @@ export const FormUser: React.FC = () => {
           name="user-birthday"
           form="user-form"
           placeholder="День рождения"
-          onChange={(e) => setBirthday(e.target.value)}
-          value={birthday || ""}
+          onChange={(e) => {
+            const parts = e.target.value.split("."); // Разбиваем строку по символу "."
+            const day = parseInt(parts[0], 10); // Получаем день и преобразуем его в число
+            const month = parseInt(parts[1], 10) - 1; // Получаем месяц и преобразуем его в число (0 - январь, 1 - февраль, и т.д.)
+            const year = parseInt(parts[2], 10); // Получаем год и преобразуем его в число
+            const date = new Date(year, month, day); // Создаем объект даты
+            setBirthday(date); // Устанавливаем значение в состояние
+          }}
+          value={birthday?.toLocaleDateString("ru-RU") || ""}
           disabled={!edit}
           required
         />
@@ -102,11 +110,11 @@ export const FormUser: React.FC = () => {
           required
         />
       </div>
-      <div>
+      <div className="d-flex justify-content-end">
         {!edit && (
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-dark"
             onClick={() => setEdit(!edit)}
           >
             Редактировать
@@ -121,7 +129,7 @@ export const FormUser: React.FC = () => {
             className="btn btn-success"
             form="user-form"
             type="submit"
-            onClick={SendNewUserData(username, phone, email, birthday)}
+            onClick={SendNewUserData(username, phone, email, birthday as Date)}
           >
             Сохранить
           </button>
@@ -137,7 +145,7 @@ export const FormUser: React.FC = () => {
               setEmail(user?.email as string);
             }}
           >
-            Отменить редактирование
+            Отменить
           </button>
         )}
       </div>

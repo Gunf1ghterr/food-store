@@ -6,7 +6,7 @@ export const SendNewUserData = (
   _username: string,
   _phone: string,
   _email: string,
-  _birthday: string
+  _birthday: Date
 ): MouseEventHandler<HTMLButtonElement> => {
   const { user, setUser } = useAuth();
   return FormDecorator(
@@ -20,7 +20,7 @@ export const SendNewUserData = (
         token: user?.token as string,
         phone: _phone,
         email: _email,
-        date: user?.date as string,
+        date: user?.date as Date,
         birthday: _birthday,
       });
       

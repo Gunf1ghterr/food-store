@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { IFeedbackContainer } from "../../interfaces/IFeedbackContainer";
 import { GoPencil } from "react-icons/go";
 
-
 export const Feedback: React.FC = () => {
   const [feedbacks, setFeedbacks] = useState<IFeedbackContainer[]>([]);
   useEffect(() => {
@@ -66,7 +65,7 @@ export const Feedback: React.FC = () => {
         title="Оставить отзыв"
         className="write-feedback"
       >
-        <GoPencil style={{fontSize: "30px", margin: "7px"}}/>
+        <GoPencil style={{ fontSize: "30px", margin: "7px" }} />
       </button>
       <div className="container">
         <div className="row">

@@ -31,8 +31,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         token: "123",
         phone: "89999999999",
         email: "test@testmail.ru",
-        date: "01.01.2022",
-        birthday: "21.11.2015",
+        date: new Date(2002, 5, 28),
+        birthday: new Date("01.01.2022"),
       });
     }
   };

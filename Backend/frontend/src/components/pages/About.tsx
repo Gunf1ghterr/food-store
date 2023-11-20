@@ -37,7 +37,10 @@ export const About: React.FC = () => {
           <div className="col-12 col-lg-6 my-3">
             <div className="card p-1">
               <div className="card-body p-0">
-                <YMaps>
+                <YMaps
+                  enterprise
+                  query={{ apikey: String(process.env.REACT_APP_API_KEY) }}
+                >
                   <Map
                     defaultState={{
                       center: [58.602658, 49.666612],
@@ -60,7 +63,10 @@ export const About: React.FC = () => {
                     <Placemark
                       modules={["geoObject.addon.balloon"]}
                       defaultGeometry={[58.602658, 49.666612]}
-                      properties={{ balloonContentHeader: "Мы тут" }}
+                      properties={{
+                        balloonContentHeader: "Мы тут",
+                        balloonContentBody: "Киров, Московская 36",
+                      }}
                     />
                   </Map>
                 </YMaps>

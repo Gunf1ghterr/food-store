@@ -21,15 +21,6 @@ export const ModalUser: React.FC = () => {
               <h1 className="modal-title fs-5" id="staticBackdropLabel">
                 {!history ? "Данные пользователя" : "История заказов"}
               </h1>
-              <div className="form-check form-switch mx-3 mt-2">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckChecked"
-                  onClick={() => setHistory(!history)}
-                />
-              </div>
               <button
                 type="button"
                 className="btn-close"
@@ -41,20 +32,35 @@ export const ModalUser: React.FC = () => {
               <div id="spinner"></div>
               {!history ? <FormUser /> : <History />}
             </div>
-            <div className="modal-footer">
-              <div>
+            <div className="modal-footer d-flex justify-content-between">
+              {!history ? (
                 <button
                   className="btn btn-dark"
                   type="button"
-                  onClick={() => {
-                    document.cookie =
-                      "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    window.location.href = "/";
-                  }}
+                  onClick={() => setHistory(!history)}
                 >
-                  Выйти из аккаунта
+                  История заказов
                 </button>
-              </div>
+              ) : (
+                <button
+                  className="btn btn-dark"
+                  type="button"
+                  onClick={() => setHistory(!history)}
+                >
+                  Данные пользователя
+                </button>
+              )}
+              <button
+                className="btn btn-danger"
+                type="button"
+                onClick={() => {
+                  document.cookie =
+                    "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                  window.location.href = "/";
+                }}
+              >
+                Выйти из аккаунта
+              </button>
             </div>
           </div>
         </div>
