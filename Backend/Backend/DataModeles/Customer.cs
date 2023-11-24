@@ -14,7 +14,11 @@ namespace Backend.DataModeles
         public string Phone { get; set; }
         [MaxLength(25)]
         public string Birthday { get; set; }
-        public ICollection<Feedback> Feedbacks { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        [MaxLength(65)]
+        public string Password { get; set; }
+        [MaxLength(25)]
+        public string Role {  get; set; }
+        public ICollection<Feedback>? Feedbacks { get; set; } = new List<Feedback>();
+        public ICollection<Order>? Orders { get; set; }
     }
 }

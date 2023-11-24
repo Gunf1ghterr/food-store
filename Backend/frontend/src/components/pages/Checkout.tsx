@@ -22,7 +22,7 @@ export const Checkout: React.FC = () => {
     if (address) {
       setCurrentOrder({ ...currentOrder, address });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   return (
@@ -165,6 +165,12 @@ export const Checkout: React.FC = () => {
                       value={currentOrder.comment}
                       rows={3}
                     ></textarea>
+                  </div>
+                  <div className="row">
+                    <h6 className="text-dark">
+                      Оплата производится наличными или картой при получении
+                      заказа.
+                    </h6>
                   </div>
                 </div>
                 <div className="card-footer d-flex justify-content-end">

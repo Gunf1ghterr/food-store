@@ -6,10 +6,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
     builder =>
     {
         builder.WithOrigins("http://localhost:3000");
+        builder.AllowCredentials();
+        builder.AllowAnyMethod();
     }
     )); // Политика корс запрещает серваку работать с неизвестными доменами (ip адрессами), поэтому тут я разрешаю ему работать с локалхост
 
@@ -26,6 +29,7 @@ app.UseRouting();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 

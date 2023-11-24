@@ -17,7 +17,6 @@ namespace Backend
             DotNetEnv.Env.Load();
 
             var ConnectionString = Environment.GetEnvironmentVariable("ConnectionString");
-            System.Console.WriteLine(ConnectionString);
 
             // Для миграции писать в соединении "localhost,1433" !!!!!;
             optionsBuilder.UseSqlServer(ConnectionString);

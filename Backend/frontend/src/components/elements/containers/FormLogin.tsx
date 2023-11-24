@@ -1,9 +1,16 @@
 import { SendLogin } from "../../functions/SendLogin";
 import { InputChanged } from "../../functions/InputChenged";
+import { useLogin } from "../../../hooks/useLogin";
 
 export const FormLogin: React.FC = () => {
+  const { mutate } = useLogin();
   return (
-    <form action="api/login" method="POST" id="login-form" name="login-form">
+    <form
+      action="api/user/login"
+      method="POST"
+      id="login-form"
+      name="login-form"
+    >
       <div className="form-group">
         <div className="mb-3">
           <input
@@ -34,21 +41,19 @@ export const FormLogin: React.FC = () => {
         <button
           type="submit"
           className="btn btn-primary"
-          onClick={SendLogin()}
+          onClick={SendLogin(mutate)}
           form="login-form"
         >
           Войти
         </button>
       </div>
       <div
-        className="alert alert-danger d-none mx-3"
+        className="alert alert-danger d-none m-3"
         id="loginAlert"
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
           e.currentTarget.classList.add("d-none");
         }}
-      >
-        Для входа необходимо заполнить все обязательные поля
-      </div>
+      ></div>
     </form>
   );
 };

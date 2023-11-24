@@ -2,7 +2,7 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { IAuthContextType } from "../../interfaces/IAuthContextType";
 import { useContext } from "react";
 import { IUser } from "../../interfaces/IUser";
-import { ReadCookie } from "../functions/ReadCookie";
+import { useGetMe } from "../../hooks/useGetMe";
 
 const AuthContext = createContext<IAuthContextType | null>(null);
 
@@ -17,26 +17,15 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  useEffect(() => {
-    loadUser();
-  }, []);
-
-  const loadUser = () => {
-    const token = ReadCookie("token");
-    if (token) {
-      setUser({
-        id: 1,
-        username: "Иван Иванов",
-        password: "123",
-        token: "123",
-        phone: "89999999999",
-        email: "test@testmail.ru",
-        date: new Date(2002, 5, 28),
-        birthday: new Date("01.01.2022"),
-      });
-    }
-  };
+  const { data } = useGetMe();
   const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
+  }, [data]);
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}

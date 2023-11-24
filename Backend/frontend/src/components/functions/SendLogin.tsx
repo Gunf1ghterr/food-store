@@ -1,26 +1,19 @@
 import { MouseEventHandler } from "react";
 import { FormDecorator } from "./FormDecorator";
 import { ValidateLogin } from "./ValidateLogin";
-import { useAuth } from "../contexts/AuthContext";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
 
-export const SendLogin = (): MouseEventHandler<HTMLButtonElement> => {
-  const { setUser } = useAuth();
+export const SendLogin = (
+  _mutate: UseMutateFunction<AxiosResponse<any, any>, Error, FormData, unknown>
+): MouseEventHandler<HTMLButtonElement> => {
   return FormDecorator(
     ValidateLogin,
-    async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setUser({
-        id: 1,
-        username: "Иван Иванов",
-        password: "123",
-        token: "123",
-        phone: "89999999999",
-        email: "test@testmail.ru",
-        date: new Date("01.01.2022"),
-        birthday:  new Date("01.01.2022"),
-      });
-      document.cookie = `token=${1}`;
-      window.location.href = "/";
+    () => {
+      const formData = new FormData(
+        document.getElementById("login-form") as HTMLFormElement
+      );
+      _mutate(formData);
     },
     "login-form"
   );

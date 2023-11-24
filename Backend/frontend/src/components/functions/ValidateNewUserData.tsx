@@ -40,7 +40,7 @@ export const ValidateNewUserData = (_form: HTMLFormElement): number => {
       error++;
     }
 
-    if (input.id === "user-birthday" && !isValidDate(input.value.trim())) {
+    if (input.id === "userBirthday" && !isValidDate(input.value.trim())) {
       AddError(input);
       error++;
     }

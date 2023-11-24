@@ -1,9 +1,16 @@
 import { SendReg } from "../../functions/SendReg";
 import { InputChanged } from "../../functions/InputChenged";
+import { useReg } from "../../../hooks/useRegistration";
 
 export const FormReg: React.FC = () => {
+  const { mutate } = useReg();
   return (
-    <form action="api/login" method="POST" id="reg-form" name="reg-form">
+    <form
+      action="api/user/registration"
+      method="POST"
+      id="reg-form"
+      name="reg-form"
+    >
       <div className="form-group ">
         <div className="mb-3">
           <input
@@ -83,7 +90,7 @@ export const FormReg: React.FC = () => {
         <button
           type="submit"
           className="btn btn-success"
-          onClick={SendReg()}
+          onClick={SendReg(mutate)}
           form="reg-form"
         >
           Зарегестрироваться
@@ -91,7 +98,7 @@ export const FormReg: React.FC = () => {
       </div>
 
       <div
-        className="alert alert-danger d-none mx-3"
+        className="alert alert-danger d-none m-3"
         id="regAlert"
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
           e.currentTarget.classList.add("d-none");

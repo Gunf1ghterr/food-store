@@ -6,92 +6,27 @@ import { IProductContainerProps } from "../../interfaces/IProductContainerProps"
 import { useLocation } from "react-router-dom";
 import { FilterParams } from "../functions/FilterParams";
 import { SearchProducts } from "../functions/SearchProducts";
+import { useProducts } from "../../hooks/useProducts";
 
 export const HomePage: React.FC = () => {
   const [items, setItems] = useState<IProductContainerProps[]>([]);
+  const [loading, setLoading] = useState(false);
   const param: string | null = new URLSearchParams(useLocation().search).get(
     "param"
   );
 
   const [search, setSearch] = useState("");
+  const { data, isSuccess, isLoading } = useProducts();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setItems([
-      {
-        image: "./p1.jpg",
-        title: "Чикенбургер с кунжутом",
-        description: "Описание карточки",
-        id: 1,
-        price: 300,
-        category: "chicken",
-      },
-      {
-        image: "./p2.jpg",
-        title: "КрейзиХамбургер",
-        description: "Описание карточки",
-        id: 2,
-        price: 500,
-        category: "beef",
-      },
-      {
-        image: "./p3.jpg",
-        title: "КрейзиДжуниор",
-        description: "Описание карточки",
-        id: 3,
-        price: 350,
-        category: "beef",
-      },
-      {
-        id: 4,
-        description: "Описание карточки",
-        image: "./p4.jpg",
-        title: "Чизбургер",
-        price: 100,
-        category: "beef",
-      },
-      {
-        id: 5,
-        description: "Описание карточки",
-        image: "./p5.jpg",
-        title: "Чикенбургер",
-        price: 300,
-        category: "chicken",
-      },
-      {
-        id: 6,
-        description: "Описание карточки",
-        image: "./p6.jpg",
-        title: "Королевский чизбургер",
-        price: 300,
-        category: "beef",
-      },
-      {
-        id: 7,
-        description: "Описание карточки",
-        image: "./p7.jpg",
-        title: "Чикенролл",
-        price: 300,
-        category: "chicken",
-      },
-      {
-        id: 8,
-        description: "Описание карточки",
-        image: "./p8.jpg",
-        title: "Шоколандый донат",
-        price: 150,
-        category: "desserts",
-      },
-      {
-        id: 9,
-        description: "Описание карточки",
-        image: "./p9.jpg",
-        title: "Какие-то чебупели",
-        price: 200,
-        category: "snacks",
-      },
-    ]);
-  }, []);
+    if (isLoading) {
+      setLoading(true);
+    } else if (isSuccess) {
+      setLoading(false);
+      setItems(data as IProductContainerProps[]);
+    }
+  }, [data, isLoading, isSuccess]);
 
   return (
     <main>
@@ -116,6 +51,13 @@ export const HomePage: React.FC = () => {
       </div>
       <div className="container">
         <div className="row">
+          {loading && (
+            <div className="d-flex justify-content-center my-5">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          )}
           {FilterParams(param, SearchProducts(items, search)).map((item) => (
             <ProductContainer key={item.id} {...item} />
           ))}

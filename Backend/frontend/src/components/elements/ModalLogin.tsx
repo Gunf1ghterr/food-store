@@ -27,6 +27,7 @@ export const ModalLogin: React.FC = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Закрыть"
+                id="close-modal-login"
               ></button>
             </div>
             <div className="py-1 px-3" style={{  }}>
