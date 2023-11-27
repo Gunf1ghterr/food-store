@@ -3,7 +3,7 @@ import { ICartProductContainer } from "../../../interfaces/ICartProductContainer
 export const CheckoutContainer: React.FC<ICartProductContainer> = ({
   id,
   image,
-  prodName,
+  name,
   price,
   count,
 }) => {
@@ -19,7 +19,7 @@ export const CheckoutContainer: React.FC<ICartProductContainer> = ({
           />
         </div>
         <div className="col-6 px-0 text-center d-flex flex-column justify-content-center">
-          <p className="h5 text-start border-bottom">{prodName}</p>
+          <p className="h5 text-start border-bottom">{name}</p>
           <p className="h6 text-start border-bottom">{count} шт.</p>
           <p className="h6 text-start border-bottom">{price * count}₽</p>
         </div>

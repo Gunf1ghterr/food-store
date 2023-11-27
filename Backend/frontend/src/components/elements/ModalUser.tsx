@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { History } from "./containers/History";
+import { History } from "./History";
 import { FormUser } from "./containers/FormUser";
 import { useLogout } from "../../hooks/useLogout";
 import { useAuth } from "../contexts/AuthContext";
@@ -15,7 +15,6 @@ export const ModalUser: React.FC = () => {
   useEffect(() => {
     if (isSuccess) {
       setUser(null);
-      setCartItems([]);
       const modal = document.getElementById("close-modal-user");
       if (modal) {
         modal.click();

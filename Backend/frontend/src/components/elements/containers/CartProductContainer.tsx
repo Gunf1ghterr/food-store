@@ -3,7 +3,7 @@ import { useCart } from "../../contexts/CartContext";
 
 export const CartProductContainer: React.FC<ICartProductContainer> = ({
   id,
-  prodName,
+  name,
   image,
   count,
   price,
@@ -14,7 +14,7 @@ export const CartProductContainer: React.FC<ICartProductContainer> = ({
     if (count < 10) {
       addItemToCart({
         id,
-        prodName,
+        name,
         image,
         price,
         count: count + 1,
@@ -41,7 +41,7 @@ export const CartProductContainer: React.FC<ICartProductContainer> = ({
             />
           </div>
           <div className="col-5 px-0 text-center d-flex flex-column justify-content-center">
-            <p className="h5 text-start border-bottom">{prodName}</p>
+            <p className="h5 text-start border-bottom">{name}</p>
             <p className="h6 text-start border-bottom">{count} шт.</p>
             <p className="h6 text-start border-bottom">{price * count}₽</p>
           </div>

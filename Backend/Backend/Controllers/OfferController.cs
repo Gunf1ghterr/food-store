@@ -20,10 +20,11 @@ namespace Backend.Controllers
             }
             catch(Exception ex) 
             {
-                return BadRequest(ex.Message);
+                Console.WriteLine(ex.Message);
+                return BadRequest("Что-то пошло не так.");
             }
 
-            
+   
         }
     }
 }

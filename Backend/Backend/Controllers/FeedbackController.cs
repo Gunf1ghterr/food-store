@@ -10,14 +10,18 @@ namespace Backend.Controllers
 
 
         [HttpGet("api/feedback/get")]
-        public IActionResult GetFeedbacks()
+        public IActionResult GetFeedbacks([FromQuery] int skip, [FromQuery] int limit = 10)
         {
             try
             {
                 List<Feedback> feedbacks = new List<Feedback>();
                 using(var cont = new ContextDataBase())
                 {
-                    feedbacks = cont.feedbacks.Include(f => f.Customer).ToList();
+                    feedbacks = cont.feedbacks.Include(f => f.Customer)
+                                       .OrderByDescending(f => f.Date)  
+                                       .Skip(skip)
+                                       .Take(limit)
+                                       .ToList();
                 }
                 var feedbacksDTO = feedbacks.Select(f => new FeedbackDTO
                 {
@@ -33,7 +37,8 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Console.WriteLine(ex.Message);
+                return BadRequest("Что-то пошло не так.");
             }
             
         }
@@ -84,7 +89,7 @@ namespace Backend.Controllers
                         Customer = customer,
                         message = feedbackMessage,
                         Image = fullFilePathForDB,
-                        Date = DateTime.Now,
+                        Date = DateTime.Now.AddHours(3),
                     };
                         cont.feedbacks.Add(feedback);
                         cont.SaveChanges();
@@ -94,7 +99,8 @@ namespace Backend.Controllers
                 }
             } catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Console.WriteLine(ex.Message);
+                return BadRequest("Что-то пошло не так.");
             }
             
         }

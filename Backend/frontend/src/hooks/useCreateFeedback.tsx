@@ -3,8 +3,8 @@ import { CreateFeedbackService } from "../services/CreateFeedback.service";
 import { useFeedbacks } from "./useFeedbacks";
 import { AxiosError } from "axios";
 
-export const useCreateFeedback = () => {
-  const _useFeedbacks = useFeedbacks();
+export const useCreateFeedback = (skip: number) => {
+  const _useFeedbacks = useFeedbacks(skip);
 
   return useMutation({
     mutationFn: (data: FormData) => CreateFeedbackService(data),

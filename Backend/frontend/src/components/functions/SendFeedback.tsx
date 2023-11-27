@@ -8,13 +8,15 @@ import { useAuth } from "../contexts/AuthContext";
 export const SendFeedback = (
   _mutate: UseMutateFunction<AxiosResponse<any, any>, Error, FormData, unknown>
 ): MouseEventHandler<HTMLButtonElement> => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   return FormDecorator(
     ValidateFeedback,
     () => {
       const formData = new FormData(
         document.getElementById("feedback-form") as HTMLFormElement
       );
+      const image = document.getElementById("filePreview") as HTMLDivElement;
+      image.innerHTML = "";
       formData.append("userId", user?.id.toString() as string);
       _mutate(formData);
     },

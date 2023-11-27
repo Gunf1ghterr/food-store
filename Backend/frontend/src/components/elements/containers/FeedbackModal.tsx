@@ -3,8 +3,8 @@ import { SendFeedback } from "../../functions/SendFeedback";
 import { InputChanged } from "../../functions/InputChenged";
 import { useCreateFeedback } from "../../../hooks/useCreateFeedback";
 
-export const FeedbackModal: React.FC = () => {
-  const { mutate } = useCreateFeedback();
+export const FeedbackModal: React.FC<{ skip: number }> = ({ skip }) => {
+  const { mutate } = useCreateFeedback(skip);
   return (
     <div
       className="modal fade"

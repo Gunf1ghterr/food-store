@@ -1,7 +1,7 @@
 export interface ICartProductContainer {
-    prodName: string;
-    image: string;
-    count: number;
-    id: number;
-    price: number;
+  id: number;
+  name: string;
+  image: string;
+  count: number;
+  price: number;
 }

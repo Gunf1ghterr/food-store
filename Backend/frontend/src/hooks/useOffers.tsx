@@ -7,5 +7,6 @@ export const useOffers = () => {
     queryKey: ["offers"],
     queryFn: () => OffersService(),
     select: (data) => data.data as IOfferContainerProps[],
+    
   });
 };

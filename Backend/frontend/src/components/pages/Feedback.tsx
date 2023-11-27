@@ -5,12 +5,14 @@ import { IFeedbackContainer } from "../../interfaces/IFeedbackContainer";
 import { GoPencil } from "react-icons/go";
 import { useAuth } from "../contexts/AuthContext";
 import { useFeedbacks } from "../../hooks/useFeedbacks";
+import { FcPrevious, FcNext } from "react-icons/fc";
 
 export const Feedback: React.FC = () => {
+  const [skip, setSkip] = useState(0);
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [feedbacks, setFeedbacks] = useState<IFeedbackContainer[]>([]);
-  const { data, isLoading, isSuccess } = useFeedbacks();
+  const { data, isLoading, isSuccess } = useFeedbacks(skip);
   useEffect(() => {
     if (isLoading) {
       setLoading(true);
@@ -18,13 +20,16 @@ export const Feedback: React.FC = () => {
       setLoading(false);
       setFeedbacks(data as IFeedbackContainer[]);
     }
-  }, [data, isLoading, isSuccess]);
+    if (feedbacks.length === 0) {
+      setSkip(0);
+    }
+  }, [data, feedbacks.length, isLoading, isSuccess]);
 
   return (
     <main>
       {user && (
         <>
-          <FeedbackModal />
+          <FeedbackModal skip={skip} />
           <button
             data-bs-toggle="modal"
             data-bs-target="#write-feedback-modal"
@@ -44,35 +49,44 @@ export const Feedback: React.FC = () => {
               </div>
             </div>
           )}
-          <div className="col-lg-6 col-sm-12">
-            {feedbacks.map(
-              (feedback, index) =>
-                index < feedbacks.length / 2 && (
-                  <FeedbackContainer
-                    key={feedback.feedbackId}
-                    feedbackId={feedback.feedbackId}
-                    date={feedback.date}
-                    userName={feedback.userName}
-                    message={feedback.message}
-                    image={feedback.image}
-                  />
-                )
-            )}
+          <div className="col-12">
+            {feedbacks.map((feedback) => (
+              <FeedbackContainer
+                key={feedback.feedbackId}
+                feedbackId={feedback.feedbackId}
+                date={feedback.date}
+                userName={feedback.userName}
+                message={feedback.message}
+                image={feedback.image}
+                userId={feedback.userId}
+              />
+            ))}
           </div>
-          <div className="col-lg-6 col-sm-12">
-            {feedbacks.map(
-              (feedback, index) =>
-                index >= feedbacks.length / 2 && (
-                  <FeedbackContainer
-                    key={feedback.feedbackId}
-                    feedbackId={feedback.feedbackId}
-                    date={feedback.date}
-                    userName={feedback.userName}
-                    message={feedback.message}
-                    image={feedback.image}
-                  />
-                )
-            )}
+          <div className="col-12 d-flex justify-content-center">
+            <button
+              className="btn btn-light   m-3 mx-1 rounded-5"
+              type="button"
+              title="Назад"
+              onClick={() => {
+                if (skip > 0) {
+                  setSkip(skip - 10);
+                }
+              }}
+            >
+              <FcPrevious style={{ fontSize: "30px" }} />
+            </button>
+            <button
+              className="btn btn-light m-3 mx-1 rounded-5"
+              type="button"
+              title="Вперед"
+              onClick={() => {
+                if (feedbacks.length === 10) {
+                  setSkip(skip + 10);
+                }
+              }}
+            >
+              <FcNext style={{ fontSize: "30px" }} />
+            </button>
           </div>
         </div>
       </div>

@@ -19,6 +19,13 @@ namespace Backend.Controllers
                 
                 System.Console.WriteLine(requestBody);
             }
+
+            List<Product> products = new List<Product>();
+            using (var cont = new ContextDataBase())
+            {
+                products = cont.products.ToList();
+            }
+            Console.WriteLine(products.Count);
             return Ok();
         }
     }

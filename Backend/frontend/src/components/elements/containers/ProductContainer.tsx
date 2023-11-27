@@ -20,7 +20,7 @@ export const ProductContainer: React.FC<IProductContainerProps> = ({
     if (count < 10) {
       addItemToCart({
         id,
-        prodName: name,
+        name: name,
         image,
         price,
         count: count + 1,

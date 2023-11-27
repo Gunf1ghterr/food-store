@@ -20,7 +20,7 @@ export const ValidateCheckout = (_form: HTMLFormElement): number => {
       AddError(input);
       error++;
     }
-    if (input.value.trim().length > 50 && input.id !== "checkout-address") {
+    if (input.value.trim().length > 50 && input.id !== "checkoutAddress") {
       AddError(input);
       error++;
     }
@@ -32,7 +32,7 @@ export const ValidateCheckout = (_form: HTMLFormElement): number => {
       AddError(input);
       error++;
     }
-    if (input.id === "checkout-address" && input.value.trim().length < 10) {
+    if (input.id === "checkoutAddress" && input.value.trim().length < 10) {
       AddError(input);
       error++;
     }

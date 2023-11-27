@@ -1,14 +1,17 @@
 import { ICartProductContainer } from "./ICartProductContainer";
+import { IProdList } from "./IProdList";
 
 export interface IOrder {
-  customer_id: number;
-  date: string;
-  status: string;
-  total: number;
-  id: number;
-  address: string;
+  adres: string;
   comment?: string;
-  items: ICartProductContainer[];
+  customer_Id: number;
+  date: string;
+  id: number;
+  payment?: string;
+  prodLists: IProdList[];
   recipient: string;
   recipient_phone: string;
+  status: string;
+  total: number;
+  items?: ICartProductContainer[];
 }
