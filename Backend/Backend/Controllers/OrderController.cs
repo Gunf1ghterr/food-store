@@ -14,6 +14,24 @@ namespace Backend.Controllers
         {
             try
             {
+                var auth = CheckToken.Check(Request.Cookies["token"]);
+
+                switch (auth)
+                {
+                    case "Пользователь авторизован.":
+                        break;
+                    case "Нет токена авторизации. Пользователь не авторизован.":
+                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                    case "Пользователь не найден.":
+                        return NotFound("Пользователь не найден.");
+                    case "Что-то пошло не так.":
+                        return BadRequest("Что-то пошло не так.");
+                    case "Нет пользователя с такими данными.":
+                        return Unauthorized("Нет пользователя с такими данными.");
+                    default:
+                        break;
+                }
+
                 using (var cont = new ContextDataBase())
                 {
                     var order = cont.orders.FirstOrDefault(o => o.Id == orderId);
@@ -40,6 +58,24 @@ namespace Backend.Controllers
         {
             try
             {
+                var auth = CheckToken.Check(Request.Cookies["token"]);
+
+                switch (auth)
+                {
+                    case "Пользователь авторизован.":
+                        break;
+                    case "Нет токена авторизации. Пользователь не авторизован.":
+                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                    case "Пользователь не найден.":
+                        return NotFound("Пользователь не найден.");
+                    case "Что-то пошло не так.":
+                        return BadRequest("Что-то пошло не так.");
+                    case "Нет пользователя с такими данными.":
+                        return Unauthorized("Нет пользователя с такими данными.");
+                    default:
+                        break;
+                }
+
                 List<OrderDTO> ordersWithProducts = new List<OrderDTO>();
                 List<Order> orders = new List<Order>();
                 using(var cont = new ContextDataBase())
@@ -90,7 +126,24 @@ namespace Backend.Controllers
         {
             try
             {
-                using(var cont = new ContextDataBase())
+                var auth = CheckToken.Check(Request.Cookies["token"]);
+
+                switch (auth)
+                {
+                    case "Пользователь авторизован.":
+                        break;
+                    case "Нет токена авторизации. Пользователь не авторизован.":
+                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                    case "Пользователь не найден.":
+                        return NotFound("Пользователь не найден.");
+                    case "Что-то пошло не так.":
+                        return BadRequest("Что-то пошло не так.");
+                    case "Нет пользователя с такими данными.":
+                        return Unauthorized("Нет пользователя с такими данными.");
+                    default:
+                        break;
+                }
+                using (var cont = new ContextDataBase())
                 {
                     var products = JsonConvert.DeserializeObject<List<ProductInfo>>(items);
 

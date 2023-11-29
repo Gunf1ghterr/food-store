@@ -48,6 +48,24 @@ namespace Backend.Controllers
         {
             try
             {
+                var auth = CheckToken.Check(Request.Cookies["token"]);
+
+                switch (auth)
+                {
+                    case "Пользователь авторизован.":
+                        break;
+                    case "Нет токена авторизации. Пользователь не авторизован.":
+                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                    case "Пользователь не найден.":
+                        return NotFound("Пользователь не найден.");
+                    case "Что-то пошло не так.":
+                        return BadRequest("Что-то пошло не так.");
+                    case "Нет пользователя с такими данными.":
+                        return Unauthorized("Нет пользователя с такими данными.");
+                    default:
+                        break;
+                }
+
                 using (var cont = new ContextDataBase())
                 {
                     var userIdInt = Convert.ToInt32(userId);
