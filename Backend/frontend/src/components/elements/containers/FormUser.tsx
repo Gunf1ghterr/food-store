@@ -3,15 +3,17 @@ import { useAuth } from "../../contexts/AuthContext";
 import { SendNewUserData } from "../../functions/SendNewUserData";
 import moment from "moment";
 import { useUpdateUser } from "../../../hooks/useUpdateUser";
+import { useDeleteUser } from "../../../hooks/useDeleteUser";
 
 export const FormUser: React.FC = () => {
   const { user } = useAuth();
-  const { mutate } = useUpdateUser();
+  const { mutate: updateUser } = useUpdateUser();
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
+  const { mutate: deleteUser } = useDeleteUser(user?.id as number);
 
   useEffect(() => {
     setUsername(user?.name as string);
@@ -114,7 +116,7 @@ export const FormUser: React.FC = () => {
             className="btn btn-success"
             form="user-form"
             type="submit"
-            onClick={SendNewUserData(mutate)}
+            onClick={SendNewUserData(updateUser)}
           >
             Сохранить
           </button>
@@ -134,19 +136,63 @@ export const FormUser: React.FC = () => {
           </button>
         )}
       </div>
+      {!edit && (
+        <>
+          <div className="d-flex justify-content-end mt-3">
+            <button
+              className="btn btn-danger"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target={`#collapseDeleteUserData`}
+              aria-expanded="false"
+              aria-controls={`collapseDeleteUserData`}
+              title="Отменить заказ"
+            >
+              Удалить данные
+            </button>
+          </div>
+          <div className="collapse" id={`collapseDeleteUserData`}>
+            <div className="card card-body mt-1">
+              Вы уверены что хотите удалить все данные? <br />
+              Отзывы и заказы будут так же удалены.
+              <div className="d-flex justify-content-end mt-1">
+                <button
+                  type="button"
+                  className="btn btn-danger mx-2"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#collapseDeleteUserData`}
+                  onClick={() => {
+                    deleteUser(user?.id as number);
+                  }}
+                >
+                  Да
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-dark"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#collapseDeleteUserData`}
+                >
+                  Нет
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
       <div
         className="alert alert-danger d-none m-3"
         id="userUpdateAlert"
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
           e.currentTarget.classList.add("d-none");
         }}
-      >
-      </div>
-      <button type="button" className="d-none"
-      id="cencel-user-update"
-      onClick={() => setEdit(!edit)}/>
-
-
+      ></div>
+      <button
+        type="button"
+        className="d-none"
+        id="cencel-user-update"
+        onClick={() => setEdit(!edit)}
+      />
     </form>
   );
 };

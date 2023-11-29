@@ -10,7 +10,7 @@ import { useSendOrder } from "../../hooks/useSendOrder";
 import { useAuth } from "../contexts/AuthContext";
 
 export const Checkout: React.FC = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const { mutate } = useSendOrder(user?.id || 0);
   const { currentOrder, setCurrentOrder } = useCurrentOrder();
   const { cartItems } = useCart();

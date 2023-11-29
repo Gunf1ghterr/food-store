@@ -45,11 +45,7 @@ export const FeedbackContainer: React.FC<IFeedbackContainer> = ({
         </div>
         {image && (
           <div className="card-footer">
-            <img
-              src={image}
-              className="card-img-bottom"
-              alt={image}
-            />
+            <img src={image} className="card-img-bottom" alt={image} />
           </div>
         )}
       </div>

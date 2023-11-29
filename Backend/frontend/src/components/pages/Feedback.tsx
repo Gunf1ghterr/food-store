@@ -49,19 +49,6 @@ export const Feedback: React.FC = () => {
               </div>
             </div>
           )}
-          <div className="col-12">
-            {feedbacks.map((feedback) => (
-              <FeedbackContainer
-                key={feedback.feedbackId}
-                feedbackId={feedback.feedbackId}
-                date={feedback.date}
-                userName={feedback.userName}
-                message={feedback.message}
-                image={feedback.image}
-                userId={feedback.userId}
-              />
-            ))}
-          </div>
           <div className="col-12 d-flex justify-content-center">
             <button
               className="btn btn-light   m-3 mx-1 rounded-5"
@@ -87,6 +74,19 @@ export const Feedback: React.FC = () => {
             >
               <FcNext style={{ fontSize: "30px" }} />
             </button>
+          </div>
+          <div className="col-12">
+            {feedbacks.map((feedback) => (
+              <FeedbackContainer
+                key={feedback.feedbackId}
+                feedbackId={feedback.feedbackId}
+                date={feedback.date}
+                userName={feedback.userName}
+                message={feedback.message}
+                image={feedback.image}
+                userId={feedback.userId}
+              />
+            ))}
           </div>
         </div>
       </div>

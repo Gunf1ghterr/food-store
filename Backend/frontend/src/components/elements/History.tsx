@@ -25,9 +25,8 @@ export const History: React.FC = () => {
 
       setLoading(false);
     }
-  }, [data, isLoading, isSuccess, orders]);
+  }, [data, isLoading, isSuccess]);
 
-  useEffect(() => {}, []);
   return (
     <div>
       {loading && (

@@ -97,7 +97,7 @@ export const HistoryContainer: React.FC<IOrderDTO> = ({ order, items }) => {
           Вы уверены что хотите отменить заказ?
           <div className="d-flex justify-content-end mt-1">
             <button
-              className="btn btn-success mx-2"
+              className="btn btn-danger mx-2"
               data-bs-toggle="collapse"
               data-bs-target={`#collapseCancelOrder${order.id}`}
               onClick={() => mutate(order.id)}
@@ -105,7 +105,7 @@ export const HistoryContainer: React.FC<IOrderDTO> = ({ order, items }) => {
               Да
             </button>
             <button
-              className="btn btn-danger"
+              className="btn btn-dark"
               data-bs-toggle="collapse"
               data-bs-target={`#collapseCancelOrder${order.id}`}
             >

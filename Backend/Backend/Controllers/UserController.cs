@@ -2,6 +2,7 @@
 using Backend.Helpers;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Security.Claims;
 
@@ -9,6 +10,54 @@ namespace Backend.Controllers
 {
     public class UserController: ControllerBase
     {
+        [HttpDelete("api/user/delete")]
+        public IActionResult DeleteUser([FromQuery] string userId)
+        {
+            try
+            {
+                var auth = CheckToken.Check(Request.Cookies["token"]);
+
+                switch (auth)
+                {
+                    case "Пользователь авторизован.":
+                        break;
+                    case "Нет токена авторизации. Пользователь не авторизован.":
+                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                    case "Пользователь не найден.":
+                        return NotFound("Пользователь не найден.");
+                    case "Что-то пошло не так.":
+                        return BadRequest("Что-то пошло не так.");
+                    case "Нет пользователя с такими данными.":
+                        return Unauthorized("Нет пользователя с такими данными.");
+                    default:
+                        break;
+                }
+
+                using (var cont = new ContextDataBase())
+                {
+                    int userIdInt = Convert.ToInt32(userId);
+                    var userToDelete = cont.customers.FirstOrDefault(c => c.Id == userIdInt);
+
+
+                    if (userToDelete != null)
+                    {
+                        cont.customers.Remove(userToDelete);
+                        cont.SaveChanges();
+                        Response.Cookies.Delete("token");
+                        return Ok("Пользователь успешно удален.");
+                    }
+                    else
+                    {
+                        return NotFound("Пользователь не найден.");
+                    }
+                }
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex);
+                return BadRequest("Что-то пошло не так.");
+            }
+
+        }
 
         [HttpPut("api/user/update")]
         public IActionResult UpdateUserData(
