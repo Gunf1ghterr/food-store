@@ -3,6 +3,7 @@ import { HistoryContainer } from "./containers/HistoryContainer";
 import { useHistoryOrders } from "../../hooks/useHistoryOrders";
 import { useAuth } from "../contexts/AuthContext";
 import { IOrderDTO } from "../../interfaces/IOrderDTO";
+import React from "react";
 
 export const History: React.FC = () => {
   const { user } = useAuth();

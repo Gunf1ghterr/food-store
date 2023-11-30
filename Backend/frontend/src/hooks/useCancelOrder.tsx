@@ -6,7 +6,8 @@ import { useHistoryOrders } from "./useHistoryOrders";
 export const useCancelOrder = (orderId: number, userId: number) => {
   const _useHistoryOrders = useHistoryOrders(userId);
   return useMutation({
-    mutationFn: (orderId: number) => CancelOrderService(orderId),
+    mutationFn: (value: { orderId: number; userId: number }) =>
+      CancelOrderService(orderId, userId),
     mutationKey: ["cancel-order", orderId],
     onSuccess: (data) => {
       _useHistoryOrders.refetch();

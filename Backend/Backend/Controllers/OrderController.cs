@@ -3,88 +3,80 @@ using Backend.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Backend.Controllers
 {
-    public class OrderController: ControllerBase
+    public class OrderController : ControllerBase
     {
-
+        [CustomAuthorization]
         [HttpPut("api/order/cancel")]
-        public IActionResult CancelOrderByCustomer([FromForm] int orderId)
+        public IActionResult CancelOrderByCustomer([FromForm] int orderId, [FromForm] int userId)
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
-
-                switch (auth)
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
                 }
-
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != userId.ToString())
+                {
+                    return Unauthorized("Нет доступа.");
+                }
                 using (var cont = new ContextDataBase())
                 {
-                    var order = cont.orders.FirstOrDefault(o => o.Id == orderId);
+                    var order = cont.orders.FirstOrDefault(o => o.Id == orderId && o.Customer_Id == userId);
 
                     if (order != null)
                     {
-                        order.Status = "Отменен";
+                        order.Status = Statuses.Cancelled;
                         cont.SaveChanges();
                         return Ok();
-                    } else
+                    }
+                    else
                     {
-                        return NotFound($"Не найден заказ с id: {orderId}");
+                        return NotFound($"Не найден заказ с id: {orderId} и customer_id {userId}");
                     }
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return BadRequest("Что-то пошло не так.");
             }
         }
 
+        [CustomAuthorization]
         [HttpGet("api/order/history")]
         public IActionResult GetLastOrders([FromQuery] int UserId)
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
-
-                switch (auth)
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
                 }
-
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != UserId.ToString())
+                {
+                    return Unauthorized("Нет доступа.");
+                }
                 List<OrderDTO> ordersWithProducts = new List<OrderDTO>();
                 List<Order> orders = new List<Order>();
-                using(var cont = new ContextDataBase())
+                using (var cont = new ContextDataBase())
                 {
                     orders = cont.orders
                    .Where(order => order.Customer_Id == UserId)
                    .Include(order => order.ProdLists)
                    .ThenInclude(prodList => prodList.Product)
-                   .OrderByDescending(order => order.Date) 
+                   .OrderByDescending(order => order.Date)
                    .Take(10)
                    .ToList();
                 }
@@ -103,19 +95,23 @@ namespace Backend.Controllers
                 if (orders.Count > 0)
                 {
                     return Ok(ordersWithProducts);
-                } else { 
-                    return NoContent(); 
+                }
+                else
+                {
+                    return NoContent();
                 }
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
                 return BadRequest("Что-то пошло не так.");
             }
         }
 
+        [CustomAuthorization]
         [HttpPost("api/order/new")]
         public IActionResult NewOrder(
-            [FromForm] string checkoutName, 
+            [FromForm] string checkoutName,
             [FromForm] string checkoutPhone,
             [FromForm] string checkoutAddress,
             [FromForm] string checkoutComment,
@@ -126,22 +122,17 @@ namespace Backend.Controllers
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
-
-                switch (auth)
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                }
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != userId.ToString())
+                {
+                    return Unauthorized("Нет доступа.");
                 }
                 using (var cont = new ContextDataBase())
                 {
@@ -154,7 +145,7 @@ namespace Backend.Controllers
                         Adres = checkoutAddress,
                         Comment = checkoutComment,
                         Customer_Id = userId,
-                        Status = "В обработке",
+                        Status = Statuses.Pending,
                         Total = Convert.ToInt32(total),
                         Date = DateTime.Now.AddHours(3),
                     };
@@ -179,7 +170,7 @@ namespace Backend.Controllers
                     cont.SaveChanges();
                     return Ok();
                 }
-                
+
             }
             catch (Exception ex)
             {

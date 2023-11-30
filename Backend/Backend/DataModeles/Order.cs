@@ -9,12 +9,12 @@ namespace Backend.DataModeles
         public DateTime Date { get; set; }
         public string Status { get; set; }
         [MaxLength(200)]
-        public string Adres {  get; set; }
+        public string Adres { get; set; }
         public int Total { get; set; }
         [MaxLength(200)]
-        public string? Comment {  get; set; }
+        public string? Comment { get; set; }
         [MaxLength(50)]
-        public string? Payment {  get; set; }
+        public string? Payment { get; set; }
         [MaxLength(50)]
         public string Recipient { get; set; }
         [MaxLength(25)]

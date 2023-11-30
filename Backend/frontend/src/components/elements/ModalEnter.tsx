@@ -8,10 +8,6 @@ export const ModalEnter = ({
 }) => {
   const [enter, setModalEnter] = useState<boolean>(true);
 
-  // const isEnter = () => {
-  //   setModalEnter(true);
-  // };
-
   const isRegister = () => {
     setModalEnter(false);
   };

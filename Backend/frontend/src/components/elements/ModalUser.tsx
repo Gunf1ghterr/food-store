@@ -4,6 +4,7 @@ import { FormUser } from "./containers/FormUser";
 import { useLogout } from "../../hooks/useLogout";
 import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
+import React from "react";
 
 export const ModalUser: React.FC = () => {
   const [history, setHistory] = useState(false);

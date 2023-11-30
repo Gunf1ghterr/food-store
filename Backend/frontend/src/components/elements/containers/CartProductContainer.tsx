@@ -1,6 +1,6 @@
 import { ICartProductContainer } from "../../../interfaces/ICartProductContainer";
 import { useCart } from "../../contexts/CartContext";
-
+import React from "react";
 export const CartProductContainer: React.FC<ICartProductContainer> = ({
   id,
   name,

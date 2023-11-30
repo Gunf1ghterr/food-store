@@ -1,4 +1,5 @@
 import { ICartProductContainer } from "../../../interfaces/ICartProductContainer";
+import React from "react";
 
 export const CheckoutContainer: React.FC<ICartProductContainer> = ({
   id,

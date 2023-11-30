@@ -11,7 +11,7 @@ namespace Backend.Helpers
         async static public Task<LoginResponseDTO> ExecuteLogin(Customer customer, string Secret)
         {
             DotNetEnv.Env.Load();
-    
+
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Secret);
@@ -22,9 +22,10 @@ namespace Backend.Helpers
                     new Claim(ClaimTypes.Name, customer.Id.ToString()),
                     new Claim(ClaimTypes.Role, customer.Role.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+            Console.WriteLine(DateTime.Now.AddDays(1));
             var token = tokenHandler.CreateToken(tokenDescriptor);
             LoginResponseDTO loginResponseDTO = new LoginResponseDTO()
             {
@@ -32,7 +33,7 @@ namespace Backend.Helpers
                 User = customer,
             };
             return loginResponseDTO;
-            
+
         }
         public static ClaimsPrincipal GetPrincipalFromToken(string token, string secret)
         {
@@ -48,10 +49,16 @@ namespace Backend.Helpers
                 ValidateLifetime = true
             };
 
-            SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-
-            return principal;
+            try
+            {
+                SecurityToken securityToken;
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+                return principal;
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return null;
+            }
         }
 
         public static Claim GetClaimFromToken(string token, string secret, string claimType)

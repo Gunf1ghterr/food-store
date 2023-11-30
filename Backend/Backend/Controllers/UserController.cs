@@ -8,31 +8,26 @@ using System.Security.Claims;
 
 namespace Backend.Controllers
 {
-    public class UserController: ControllerBase
+    public class UserController : ControllerBase
     {
+        [CustomAuthorization]
         [HttpDelete("api/user/delete")]
         public IActionResult DeleteUser([FromQuery] string userId)
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
-
-                switch (auth)
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
                 }
-
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != userId)
+                {
+                    return Unauthorized("Нет доступа.");
+                }
                 using (var cont = new ContextDataBase())
                 {
                     int userIdInt = Convert.ToInt32(userId);
@@ -52,13 +47,15 @@ namespace Backend.Controllers
                     }
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex);
                 return BadRequest("Что-то пошло не так.");
             }
 
         }
 
+        [CustomAuthorization]
         [HttpPut("api/user/update")]
         public IActionResult UpdateUserData(
         [FromForm] string userId,
@@ -69,23 +66,38 @@ namespace Backend.Controllers
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
+                //var auth = CheckToken.Check(Request.Cookies["token"]);
 
-                switch (auth)
+                //switch (auth)
+                //{
+                //    case "Пользователь авторизован.":
+                //        break;
+                //    case "Нет токена авторизации. Пользователь не авторизован.":
+                //        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                //    case "Пользователь не найден.":
+                //        return NotFound("Пользователь не найден.");
+                //    case "Что-то пошло не так.":
+                //        return BadRequest("Что-то пошло не так.");
+                //    case "Нет пользователя с такими данными.":
+                //        return Unauthorized("Нет пользователя с такими данными.");
+                //    default:
+                //        break;
+                //}
+
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
                 }
+
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != userId)
+                {
+                    return Unauthorized("Нет доступа.");
+                }
+
                 using (var context = new ContextDataBase())
                 {
                     var userIdInt = Convert.ToInt32(userId);
@@ -124,12 +136,12 @@ namespace Backend.Controllers
 
         [Route("/api/user/registration")]
         [HttpPost]
-         public async Task<IActionResult> Registration(
-            [FromForm] string regNameInput, 
-            [FromForm] string regBirthdayInput, 
-            [FromForm] string regTelInput, 
-            [FromForm] string regPasswordInput, 
-            [FromForm] string regRole, 
+        public async Task<IActionResult> Registration(
+            [FromForm] string regNameInput,
+            [FromForm] string regBirthdayInput,
+            [FromForm] string regTelInput,
+            [FromForm] string regPasswordInput,
+            [FromForm] string regRole,
             [FromForm] string regMailInput)
         {
             try
@@ -139,11 +151,12 @@ namespace Backend.Controllers
                 using (var cont = new ContextDataBase())
                 {
                     customer = cont.customers.FirstOrDefault(c => c.Mail == regMailInput);
-                
+
                     if (customer != null)
                     {
                         return Conflict("Такой пользователь существует.");
-                    } else
+                    }
+                    else
                     {
                         newCustomer = new Customer
                         {
@@ -179,7 +192,7 @@ namespace Backend.Controllers
 
         [Route("api/user/login")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] string loginMailInput, 
+        public async Task<IActionResult> Login([FromForm] string loginMailInput,
             [FromForm] string loginPasswordInput)
         {
             Customer customer;
@@ -193,7 +206,8 @@ namespace Backend.Controllers
                     if (customer == null)
                     {
                         return NotFound("Пользователь не найден!");
-                    } else
+                    }
+                    else
                     {
                         DotNetEnv.Env.Load();
                         var secret = Environment.GetEnvironmentVariable("Secret");
@@ -264,7 +278,8 @@ namespace Backend.Controllers
                     Console.WriteLine(ex.Message);
                     return BadRequest("Что-то пошло не так.");
                 }
-            } else
+            }
+            else
             {
                 return Unauthorized("Нет пользователя с такими данными.");
             }

@@ -22,12 +22,12 @@ namespace Backend.Controllers
 
                 return Ok(products);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return BadRequest("Что-то пошло не так.");
             }
-            
+
         }
     }
 }

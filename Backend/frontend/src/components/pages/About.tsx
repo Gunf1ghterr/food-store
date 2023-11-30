@@ -1,5 +1,6 @@
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 import { LuTimer } from "react-icons/lu";
+import React from "react";
 
 export const About: React.FC = () => {
   return (

@@ -1,3 +1,4 @@
+import React from "react";
 import { IOfferContainerProps } from "../../../interfaces/IOfferContainerProps";
 import { Modal } from "../Modal";
 

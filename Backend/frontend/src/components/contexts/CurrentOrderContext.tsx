@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { ICurrentOrderContext } from "../../interfaces/ICurrentOrderContext";
 import { ICurrentOrder } from "../../interfaces/ICurrentOrder";
 import { useAuth } from "./AuthContext";
+import React from "react";
 
 const CurrentOrderContext = createContext<ICurrentOrderContext | null>(null);
 

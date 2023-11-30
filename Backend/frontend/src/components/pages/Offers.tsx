@@ -1,5 +1,6 @@
 import { OfferContainer } from "../elements/containers/OfferContainer";
 import { useOffer } from "../contexts/OfferContext";
+import React from "react";
 
 export const Offers: React.FC = () => {
   const { items } = useOffer();

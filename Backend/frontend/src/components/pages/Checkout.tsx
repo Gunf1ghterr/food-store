@@ -8,6 +8,7 @@ import { CheckoutMap } from "../elements/CheckoutMap";
 import { useCurrentOrder } from "../contexts/CurrentOrderContext";
 import { useSendOrder } from "../../hooks/useSendOrder";
 import { useAuth } from "../contexts/AuthContext";
+import React from "react";
 
 export const Checkout: React.FC = () => {
   const { user } = useAuth();

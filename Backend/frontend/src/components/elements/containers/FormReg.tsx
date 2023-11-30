@@ -1,6 +1,7 @@
 import { SendReg } from "../../functions/SendReg";
 import { InputChanged } from "../../functions/InputChenged";
 import { useReg } from "../../../hooks/useRegistration";
+import React from "react";
 
 export const FormReg: React.FC = () => {
   const { mutate } = useReg();

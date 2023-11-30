@@ -4,6 +4,7 @@ import { SendNewUserData } from "../../functions/SendNewUserData";
 import moment from "moment";
 import { useUpdateUser } from "../../../hooks/useUpdateUser";
 import { useDeleteUser } from "../../../hooks/useDeleteUser";
+import React from "react";
 
 export const FormUser: React.FC = () => {
   const { user } = useAuth();

@@ -3,6 +3,7 @@ import { IAuthContextType } from "../../interfaces/IAuthContextType";
 import { useContext } from "react";
 import { IUser } from "../../interfaces/IUser";
 import { useGetMe } from "../../hooks/useGetMe";
+import React from "react";
 
 const AuthContext = createContext<IAuthContextType | null>(null);
 

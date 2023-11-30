@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import React from "react";
 
 export const Agreement: React.FC = () => {
   useEffect(() => {
