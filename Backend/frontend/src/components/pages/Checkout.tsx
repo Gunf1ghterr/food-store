@@ -1,17 +1,22 @@
 import { useCart } from "../contexts/CartContext";
 import { CheckoutContainer } from "../elements/containers/CkeckoutContainer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SendCheckout } from "../functions/SendCheckout";
 import { InputChanged } from "../functions/InputChenged";
 import { Navigate } from "react-router-dom";
 import { CheckoutMap } from "../elements/CheckoutMap";
 import { useCurrentOrder } from "../contexts/CurrentOrderContext";
+import { useSendOrder } from "../../hooks/useSendOrder";
+import { useAuth } from "../contexts/AuthContext";
 
 export const Checkout: React.FC = () => {
+  const { user } = useAuth();
+  const { mutate } = useSendOrder(user?.id || 0);
   const { currentOrder, setCurrentOrder } = useCurrentOrder();
   const { cartItems } = useCart();
   const [address, setAddress] = useState("");
   const [total, setTotal] = useState(0);
+  const form = useRef(null);
   useEffect(() => {
     setTotal(
       cartItems.reduce((total, item) => total + item.price * item.count, 0)
@@ -22,7 +27,7 @@ export const Checkout: React.FC = () => {
     if (address) {
       setCurrentOrder({ ...currentOrder, address });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   return (
@@ -51,7 +56,7 @@ export const Checkout: React.FC = () => {
                   <CheckoutContainer
                     key={item.id}
                     id={item.id}
-                    prodName={item.prodName}
+                    name={item.name}
                     image={item.image}
                     count={item.count}
                     price={item.price}
@@ -77,10 +82,12 @@ export const Checkout: React.FC = () => {
                 <p className="h5">Получатель</p>
               </div>
               <form
-                action="api/newOrder"
+                action="api/order/new"
                 method="POST"
                 id="checkout-form"
                 name="checkout-form"
+                encType="multipart/form-data"
+                ref={form}
               >
                 <div className="card-body">
                   <div className="row">
@@ -89,8 +96,8 @@ export const Checkout: React.FC = () => {
                       className="form-control w-25 m-2"
                       placeholder="Имя"
                       required
-                      id="checkout-name"
-                      name="checkout-name"
+                      id="checkoutName"
+                      name="checkoutName"
                       form="checkout-form"
                       onChange={(e) => {
                         InputChanged(e);
@@ -110,8 +117,8 @@ export const Checkout: React.FC = () => {
                         className="form-control my-2"
                         placeholder="Номер телефона"
                         required
-                        id="checkout-phone"
-                        name="checkout-phone"
+                        id="checkoutPhone"
+                        name="checkoutPhone"
                         form="checkout-form"
                         onChange={(e) => {
                           InputChanged(e);
@@ -129,8 +136,8 @@ export const Checkout: React.FC = () => {
                       className="form-control w-75 m-2"
                       placeholder="Адрес"
                       required
-                      id="checkout-address"
-                      name="checkout-address"
+                      id="checkoutAddress"
+                      name="checkoutAddress"
                       form="checkout-form"
                       value={currentOrder.address}
                       onChange={(e) => {
@@ -149,8 +156,8 @@ export const Checkout: React.FC = () => {
                   <div className="row">
                     <textarea
                       className="form-control m-2 w-75"
-                      name="checkout-comment"
-                      id="checkout-comment"
+                      name="checkoutComment"
+                      id="checkoutComment"
                       placeholder="Комментарий"
                       style={{ resize: "none" }}
                       maxLength={200}
@@ -166,12 +173,18 @@ export const Checkout: React.FC = () => {
                       rows={3}
                     ></textarea>
                   </div>
+                  <div className="row">
+                    <h6 className="text-dark">
+                      Оплата производится наличными или картой при получении
+                      заказа.
+                    </h6>
+                  </div>
                 </div>
                 <div className="card-footer d-flex justify-content-end">
                   <button
                     className="btn btn-dark"
                     type="submit"
-                    onClick={SendCheckout()}
+                    onClick={SendCheckout(mutate)}
                     form="checkout-form"
                   >
                     Заказать

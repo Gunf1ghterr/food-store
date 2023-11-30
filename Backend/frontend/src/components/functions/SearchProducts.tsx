@@ -7,7 +7,7 @@ export const SearchProducts = (
   const updatedItems = [..._items];
   if (_search) {
     return updatedItems.filter((item) =>
-      item.title.toLowerCase().includes(_search.toLowerCase())
+      item.name.toLowerCase().includes(_search.toLowerCase())
     );
   } else {
     return updatedItems;

@@ -5,7 +5,7 @@ import { useCart } from "../../contexts/CartContext";
 import { useAuth } from "../../contexts/AuthContext";
 
 export const ProductContainer: React.FC<IProductContainerProps> = ({
-  title,
+  name,
   description,
   image,
   id,
@@ -20,7 +20,7 @@ export const ProductContainer: React.FC<IProductContainerProps> = ({
     if (count < 10) {
       addItemToCart({
         id,
-        prodName: title,
+        name: name,
         image,
         price,
         count: count + 1,
@@ -50,7 +50,7 @@ export const ProductContainer: React.FC<IProductContainerProps> = ({
             />
           </div>
           <div className="card-body">
-            <h5 className="card-title">{title}</h5>
+            <h5 className="card-title">{name}</h5>
             <p className="card-text">{description}</p>
 
             {user && (

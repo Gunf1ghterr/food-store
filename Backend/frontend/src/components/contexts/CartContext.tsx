@@ -26,7 +26,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [cartItems, setCartItems] = useState<ICartProductContainer[]>([]);
-
   useEffect(() => {
     setCartItems(loadCartFromLocalStorage());
   }, []);

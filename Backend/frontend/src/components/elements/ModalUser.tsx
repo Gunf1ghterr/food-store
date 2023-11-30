@@ -1,9 +1,27 @@
-import { useState } from "react";
-import { History } from "./containers/History";
+import { useEffect, useState } from "react";
+import { History } from "./History";
 import { FormUser } from "./containers/FormUser";
+import { useLogout } from "../../hooks/useLogout";
+import { useAuth } from "../contexts/AuthContext";
+import { useCart } from "../contexts/CartContext";
 
 export const ModalUser: React.FC = () => {
   const [history, setHistory] = useState(false);
+  const [exit, setExit] = useState(false);
+  const { isSuccess } = useLogout(exit);
+  const { setUser } = useAuth();
+  const { setCartItems } = useCart();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setUser(null);
+      const modal = document.getElementById("close-modal-user");
+      if (modal) {
+        modal.click();
+      }
+    }
+  }, [isSuccess, setCartItems, setUser]);
+
   return (
     <>
       <div
@@ -26,6 +44,7 @@ export const ModalUser: React.FC = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Закрыть"
+                id="close-modal-user"
               ></button>
             </div>
             <div className="modal-body">
@@ -54,9 +73,7 @@ export const ModalUser: React.FC = () => {
                 className="btn btn-danger"
                 type="button"
                 onClick={() => {
-                  document.cookie =
-                    "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                  window.location.href = "/";
+                  setExit(!exit);
                 }}
               >
                 Выйти из аккаунта

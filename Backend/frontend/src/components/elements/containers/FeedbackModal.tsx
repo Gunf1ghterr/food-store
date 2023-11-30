@@ -1,8 +1,10 @@
 import { FilePreview } from "../../functions/FilePreview";
 import { SendFeedback } from "../../functions/SendFeedback";
 import { InputChanged } from "../../functions/InputChenged";
+import { useCreateFeedback } from "../../../hooks/useCreateFeedback";
 
-export const FeedbackModal: React.FC = () => {
+export const FeedbackModal: React.FC<{ skip: number }> = ({ skip }) => {
+  const { mutate } = useCreateFeedback(skip);
   return (
     <div
       className="modal fade"
@@ -24,6 +26,7 @@ export const FeedbackModal: React.FC = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Закрыть"
+              id="close-modal-feedback"
             ></button>
           </div>
           <form
@@ -38,8 +41,8 @@ export const FeedbackModal: React.FC = () => {
                 <label htmlFor="feedback-textarea">Поле для ввода</label>
                 <textarea
                   className="form-control"
-                  id="feedback-textarea"
-                  name="feedback-textarea"
+                  id="feedbackMessage"
+                  name="feedbackMessage"
                   style={{ resize: "none" }}
                   rows={4}
                   required
@@ -51,8 +54,8 @@ export const FeedbackModal: React.FC = () => {
                   type="file"
                   className="form-control mt-3"
                   aria-label="file example"
-                  id="feedback-image"
-                  name="feedback-image"
+                  id="feedbackImage"
+                  name="feedbackImage"
                   accept=".jpg, .jpeg, .png"
                   onChange={FilePreview()}
                   form="feedback-form"
@@ -64,14 +67,14 @@ export const FeedbackModal: React.FC = () => {
               <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={SendFeedback()}
+                onClick={SendFeedback(mutate)}
                 form="feedback-form"
               >
                 Отправить
               </button>
             </div>
             <div
-              className="alert alert-danger d-none mx-3"
+              className="alert alert-danger d-none m-3"
               id="fileAlert"
               onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                 e.currentTarget.classList.add("d-none");

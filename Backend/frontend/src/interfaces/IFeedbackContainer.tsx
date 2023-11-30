@@ -1,7 +1,8 @@
 export interface IFeedbackContainer {
-  id: number;
   date: string;
-  username: string;
-  feedback: string;
+  feedbackId: number;
   image?: string;
+  message: string;
+  userId?: number;
+  userName?: string;
 }

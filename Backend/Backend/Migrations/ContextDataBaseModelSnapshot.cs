@@ -48,10 +48,20 @@ namespace Backend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(65)
+                        .HasColumnType("nvarchar(65)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
@@ -73,8 +83,7 @@ namespace Backend.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("message")
                         .IsRequired()
@@ -150,8 +159,9 @@ namespace Backend.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int>("Status_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Total")
                         .HasColumnType("int");
@@ -159,8 +169,6 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Customer_Id");
-
-                    b.HasIndex("Status_Id");
 
                     b.ToTable("orders");
                 });
@@ -221,24 +229,6 @@ namespace Backend.Migrations
                     b.ToTable("productLists");
                 });
 
-            modelBuilder.Entity("Backend.DataModeles.Status", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("statuses");
-                });
-
             modelBuilder.Entity("Backend.DataModeles.Feedback", b =>
                 {
                     b.HasOne("Backend.DataModeles.Customer", "Customer")
@@ -258,15 +248,7 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.DataModeles.Status", "Status")
-                        .WithMany("Orders")
-                        .HasForeignKey("Status_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Customer");
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Backend.DataModeles.ProductList", b =>
@@ -303,11 +285,6 @@ namespace Backend.Migrations
             modelBuilder.Entity("Backend.DataModeles.Product", b =>
                 {
                     b.Navigation("ProductLists");
-                });
-
-            modelBuilder.Entity("Backend.DataModeles.Status", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

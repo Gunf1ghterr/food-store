@@ -39,7 +39,7 @@ export const ModalCart: React.FC = () => {
                 <CartProductContainer
                   key={item.id}
                   id={item.id}
-                  prodName={item.prodName}
+                  name={item.name}
                   image={item.image}
                   count={item.count}
                   price={item.price}
@@ -56,10 +56,7 @@ export const ModalCart: React.FC = () => {
                   )}{" "}
                   ₽
                 </p>
-                <NavLink
-                  to="/checkout"
-                  ref={linkRef}
-                />
+                <NavLink to="/checkout" ref={linkRef} />
 
                 <button
                   type="button"

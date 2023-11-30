@@ -33,7 +33,7 @@ export const CurrentOrderProvider: React.FC<{ children: React.ReactNode }> = ({
         customer_id: user.id,
         address: "",
         comment: "",
-        recipient: user.username,
+        recipient: user.name,
         recipient_phone: user.phone,
       });
     }

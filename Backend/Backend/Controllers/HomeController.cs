@@ -3,32 +3,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-    [Route("api/users")]
+    [Route("api/products")]
     [ApiController]
     public class HomeController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetUsers()
+        public IActionResult GetProducts()
         {
-            var user = new[]
+
+            try
             {
-                new {name = "oleg"},
-                new {name = "ivan"}
-            };
-
-            //using (var cont = new ContextDataBase())
-            //{
-            //    var NewStatus = new Status
-            //    {
-            //        Name = "test"
-            //    };
-
-            //    cont.statuses.Add(NewStatus);
-            //    cont.SaveChanges();
-            //}
+                List<Product> products = new List<Product>();
+                using (var cont = new ContextDataBase())
+                {
+                    products = cont.products.ToList();
+                }
 
 
-            return Ok(user);
+                return Ok(products);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest("Что-то пошло не так.");
+            }
+            
         }
     }
 }

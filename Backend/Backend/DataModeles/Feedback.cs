@@ -8,9 +8,10 @@ namespace Backend.DataModeles
         public DateTime Date { get; set; }
         public int Customer_Id { get; set; }
         public string message { get; set; }
-        [MaxLength(50)]
-        public string? Image { get; set; }
 
+        public string? Image { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public Customer Customer { get; set; }
     }
 }
