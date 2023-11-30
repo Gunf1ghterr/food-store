@@ -9,6 +9,13 @@ namespace Backend.Controllers
 {
     public class OrderController : ControllerBase
     {
+        private readonly IDbContext _dbContext;
+
+        public OrderController(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         [CustomAuthorization]
         [HttpPut("api/order/cancel")]
         public IActionResult CancelOrderByCustomer([FromForm] int orderId, [FromForm] int userId)
@@ -27,21 +34,20 @@ namespace Backend.Controllers
                 {
                     return Unauthorized("Нет доступа.");
                 }
-                using (var cont = new ContextDataBase())
-                {
-                    var order = cont.orders.FirstOrDefault(o => o.Id == orderId && o.Customer_Id == userId);
 
-                    if (order != null)
-                    {
-                        order.Status = Statuses.Cancelled;
-                        cont.SaveChanges();
-                        return Ok();
-                    }
-                    else
-                    {
-                        return NotFound($"Не найден заказ с id: {orderId} и customer_id {userId}");
-                    }
+                var order = _dbContext.orders.FirstOrDefault(o => o.Id == orderId && o.Customer_Id == userId);
+
+                if (order != null)
+                {
+                    order.Status = Statuses.Cancelled;
+                    _dbContext.SaveChanges();
+                    return Ok();
                 }
+                else
+                {
+                    return NotFound($"Не найден заказ с id: {orderId} и customer_id {userId}");
+                }
+
             }
             catch (Exception ex)
             {
@@ -70,16 +76,15 @@ namespace Backend.Controllers
                 }
                 List<OrderDTO> ordersWithProducts = new List<OrderDTO>();
                 List<Order> orders = new List<Order>();
-                using (var cont = new ContextDataBase())
-                {
-                    orders = cont.orders
-                   .Where(order => order.Customer_Id == UserId)
-                   .Include(order => order.ProdLists)
-                   .ThenInclude(prodList => prodList.Product)
-                   .OrderByDescending(order => order.Date)
-                   .Take(10)
-                   .ToList();
-                }
+
+                orders = _dbContext.orders
+                .Where(order => order.Customer_Id == UserId)
+                .Include(order => order.ProdLists)
+                .ThenInclude(prodList => prodList.Product)
+                .OrderByDescending(order => order.Date)
+                .Take(10)
+                .ToList();
+
                 foreach (var order in orders)
                 {
                     var orderDTO = new OrderDTO
@@ -134,42 +139,39 @@ namespace Backend.Controllers
                 {
                     return Unauthorized("Нет доступа.");
                 }
-                using (var cont = new ContextDataBase())
-                {
-                    var products = JsonConvert.DeserializeObject<List<ProductInfo>>(items);
 
-                    var order = new Order
+                var products = JsonConvert.DeserializeObject<List<ProductInfo>>(items);
+
+                var order = new Order
+                {
+                    Recipient = checkoutName,
+                    Recipient_phone = checkoutPhone,
+                    Adres = checkoutAddress,
+                    Comment = checkoutComment,
+                    Customer_Id = userId,
+                    Status = Statuses.Pending,
+                    Total = Convert.ToInt32(total),
+                    Date = DateTime.Now.AddHours(3),
+                };
+
+                _dbContext.orders.Add(order);
+                _dbContext.SaveChanges();
+
+                int newOrderId = order.Id;
+
+                foreach (var product in products)
+                {
+                    var productListEntry = new ProductList
                     {
-                        Recipient = checkoutName,
-                        Recipient_phone = checkoutPhone,
-                        Adres = checkoutAddress,
-                        Comment = checkoutComment,
-                        Customer_Id = userId,
-                        Status = Statuses.Pending,
-                        Total = Convert.ToInt32(total),
-                        Date = DateTime.Now.AddHours(3),
+                        Order_Id = newOrderId,
+                        Product_Id = product.id,
+                        count = product.count
                     };
 
-                    cont.orders.Add(order);
-                    cont.SaveChanges();
-
-                    int newOrderId = order.Id;
-
-                    foreach (var product in products)
-                    {
-                        var productListEntry = new ProductList
-                        {
-                            Order_Id = newOrderId,
-                            Product_Id = product.id,
-                            count = product.count
-                        };
-
-                        cont.productLists.Add(productListEntry);
-                    }
-
-                    cont.SaveChanges();
-                    return Ok();
+                    _dbContext.productLists.Add(productListEntry);
                 }
+                _dbContext.SaveChanges();
+                return Ok();
 
             }
             catch (Exception ex)

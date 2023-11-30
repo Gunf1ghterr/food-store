@@ -1,9 +1,10 @@
 ﻿using Backend.DataModeles;
+using Backend.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend
 {
-    public class ContextDataBase : DbContext
+    public class ContextDataBase : DbContext, IDbContext
     {
         public DbSet<Customer> customers { get; set; }
         public DbSet<Feedback> feedbacks { get; set; }

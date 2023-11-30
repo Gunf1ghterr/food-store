@@ -10,6 +10,13 @@ namespace Backend.Controllers
 {
     public class UserController : ControllerBase
     {
+        private readonly IDbContext _dbContext;
+
+        public UserController(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         [CustomAuthorization]
         [HttpDelete("api/user/delete")]
         public IActionResult DeleteUser([FromQuery] string userId)
@@ -28,24 +35,23 @@ namespace Backend.Controllers
                 {
                     return Unauthorized("Нет доступа.");
                 }
-                using (var cont = new ContextDataBase())
+
+                int userIdInt = Convert.ToInt32(userId);
+                var userToDelete = _dbContext.customers.FirstOrDefault(c => c.Id == userIdInt);
+
+
+                if (userToDelete != null)
                 {
-                    int userIdInt = Convert.ToInt32(userId);
-                    var userToDelete = cont.customers.FirstOrDefault(c => c.Id == userIdInt);
-
-
-                    if (userToDelete != null)
-                    {
-                        cont.customers.Remove(userToDelete);
-                        cont.SaveChanges();
-                        Response.Cookies.Delete("token");
-                        return Ok("Пользователь успешно удален.");
-                    }
-                    else
-                    {
-                        return NotFound("Пользователь не найден.");
-                    }
+                    _dbContext.customers.Remove(userToDelete);
+                    _dbContext.SaveChanges();
+                    Response.Cookies.Delete("token");
+                    return Ok("Пользователь успешно удален.");
                 }
+                else
+                {
+                    return NotFound("Пользователь не найден.");
+                }
+
             }
             catch (Exception ex)
             {
@@ -97,34 +103,29 @@ namespace Backend.Controllers
                 {
                     return Unauthorized("Нет доступа.");
                 }
+                var userIdInt = Convert.ToInt32(userId);
 
-                using (var context = new ContextDataBase())
+                var user = _dbContext.customers.FirstOrDefault(u => u.Id == userIdInt);
+
+                if (user == null)
                 {
-                    var userIdInt = Convert.ToInt32(userId);
-
-                    var user = context.customers.FirstOrDefault(u => u.Id == userIdInt);
-
-                    if (user == null)
-                    {
-                        return NotFound("Пользователь не найдет.");
-                    }
-
-                    var existingUserWithNewMail = context.customers.FirstOrDefault(u => u.Mail == userMail && u.Id != userIdInt);
-
-                    if (existingUserWithNewMail != null)
-                    {
-                        return BadRequest("Адрес электронной почты уже используется другим пользователем.");
-                    }
-
-                    user.Birthday = userBirthday;
-                    user.Name = userUsername;
-                    user.Phone = userPhone;
-                    user.Mail = userMail;
-
-                    context.SaveChanges();
-                    return Ok(user);
+                    return NotFound("Пользователь не найдет.");
                 }
 
+                var existingUserWithNewMail = _dbContext.customers.FirstOrDefault(u => u.Mail == userMail && u.Id != userIdInt);
+
+                if (existingUserWithNewMail != null)
+                {
+                    return BadRequest("Адрес электронной почты уже используется другим пользователем.");
+                }
+
+                user.Birthday = userBirthday;
+                user.Name = userUsername;
+                user.Phone = userPhone;
+                user.Mail = userMail;
+
+                _dbContext.SaveChanges();
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -148,38 +149,37 @@ namespace Backend.Controllers
             {
                 Customer customer;
                 Customer newCustomer;
-                using (var cont = new ContextDataBase())
+
+                customer = _dbContext.customers.FirstOrDefault(c => c.Mail == regMailInput);
+
+                if (customer != null)
                 {
-                    customer = cont.customers.FirstOrDefault(c => c.Mail == regMailInput);
-
-                    if (customer != null)
+                    return Conflict("Такой пользователь существует.");
+                }
+                else
+                {
+                    newCustomer = new Customer
                     {
-                        return Conflict("Такой пользователь существует.");
-                    }
-                    else
-                    {
-                        newCustomer = new Customer
-                        {
-                            Name = regNameInput,
-                            Birthday = regBirthdayInput,
-                            Phone = regTelInput,
-                            Password = HashPasswordHelper.HashPassword(regPasswordInput),
-                            Role = regRole,
-                            Mail = regMailInput,
-                            Date = DateTime.Now,
-                        };
+                        Name = regNameInput,
+                        Birthday = regBirthdayInput,
+                        Phone = regTelInput,
+                        Password = HashPasswordHelper.HashPassword(regPasswordInput),
+                        Role = regRole,
+                        Mail = regMailInput,
+                        Date = DateTime.Now,
+                    };
 
-                        cont.customers.Add(newCustomer);
-                        cont.SaveChanges();
-                        DotNetEnv.Env.Load();
-                        var secret = Environment.GetEnvironmentVariable("Secret");
-                        LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(newCustomer, secret);
-                        Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
-                        {
-                            HttpOnly = true,
-                            Expires = DateTime.Now.AddDays(1),
-                        });
-                    }
+                    _dbContext.customers.Add(newCustomer);
+                    _dbContext.SaveChanges();
+                    DotNetEnv.Env.Load();
+                    var secret = Environment.GetEnvironmentVariable("Secret");
+                    LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(newCustomer, secret);
+                    Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Expires = DateTime.Now.AddDays(1),
+                    });
+
                 }
                 return Ok(newCustomer);
             }
@@ -198,30 +198,29 @@ namespace Backend.Controllers
             Customer customer;
             try
             {
-                using (var cont = new ContextDataBase())
+
+                customer = _dbContext.customers.FirstOrDefault(c => c.Mail == loginMailInput &&
+                c.Password == HashPasswordHelper.HashPassword(loginPasswordInput));
+
+                if (customer == null)
                 {
-                    customer = cont.customers.FirstOrDefault(c => c.Mail == loginMailInput &&
-                    c.Password == HashPasswordHelper.HashPassword(loginPasswordInput));
-
-                    if (customer == null)
-                    {
-                        return NotFound("Пользователь не найден!");
-                    }
-                    else
-                    {
-                        DotNetEnv.Env.Load();
-                        var secret = Environment.GetEnvironmentVariable("Secret");
-                        LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(customer, secret);
-                        Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
-                        {
-                            HttpOnly = true,
-                            Expires = DateTime.Now.AddDays(1),
-                        });
-                        return Ok(customer);
-                    }
-
-
+                    return NotFound("Пользователь не найден!");
                 }
+                else
+                {
+                    DotNetEnv.Env.Load();
+                    var secret = Environment.GetEnvironmentVariable("Secret");
+                    LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(customer, secret);
+                    Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Expires = DateTime.Now.AddDays(1),
+                    });
+                    return Ok(customer);
+                }
+
+
+
             }
             catch (Exception ex)
             {
@@ -258,20 +257,19 @@ namespace Backend.Controllers
 
                 try
                 {
-                    using (var cont = new ContextDataBase())
-                    {
-                        int userIdInt = Convert.ToInt32(userId);
-                        var currentUser = cont.customers.FirstOrDefault(c => c.Id == userIdInt);
 
-                        if (currentUser != null)
-                        {
-                            return Ok(currentUser);
-                        }
-                        else
-                        {
-                            return NotFound("Пользователь не найден.");
-                        }
+                    int userIdInt = Convert.ToInt32(userId);
+                    var currentUser = _dbContext.customers.FirstOrDefault(c => c.Id == userIdInt);
+
+                    if (currentUser != null)
+                    {
+                        return Ok(currentUser);
                     }
+                    else
+                    {
+                        return NotFound("Пользователь не найден.");
+                    }
+
                 }
                 catch (Exception ex)
                 {

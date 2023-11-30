@@ -8,7 +8,12 @@ namespace Backend.Controllers
 {
     public class FeedbackController : ControllerBase
     {
+        private readonly IDbContext _dbContext;
 
+        public FeedbackController(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         [HttpGet("api/feedback/get")]
         public IActionResult GetFeedbacks([FromQuery] int skip, [FromQuery] int limit = 10)
@@ -16,14 +21,13 @@ namespace Backend.Controllers
             try
             {
                 List<Feedback> feedbacks = new List<Feedback>();
-                using (var cont = new ContextDataBase())
-                {
-                    feedbacks = cont.feedbacks.Include(f => f.Customer)
-                                       .OrderByDescending(f => f.Date)
-                                       .Skip(skip)
-                                       .Take(limit)
-                                       .ToList();
-                }
+
+                feedbacks = _dbContext.feedbacks.Include(f => f.Customer)
+                                    .OrderByDescending(f => f.Date)
+                                    .Skip(skip)
+                                    .Take(limit)
+                                    .ToList();
+
                 var feedbacksDTO = feedbacks.Select(f => new FeedbackDTO
                 {
                     FeedbackId = f.Id,
@@ -62,56 +66,55 @@ namespace Backend.Controllers
                 {
                     return Unauthorized("Нет доступа.");
                 }
-                using (var cont = new ContextDataBase())
+
+                var userIdInt = Convert.ToInt32(userId);
+                Customer customer;
+
+
+                if (userIdInt > 0)
                 {
-                    var userIdInt = Convert.ToInt32(userId);
-                    Customer customer;
+                    customer = _dbContext.customers.FirstOrDefault(c => c.Id == userIdInt);
 
-
-                    if (userIdInt > 0)
-                    {
-                        customer = cont.customers.FirstOrDefault(c => c.Id == userIdInt);
-
-                    }
-                    else
-                    {
-                        return BadRequest("Некорректный Id пользователя.");
-                    }
-
-
-                    if (customer == null)
-                    {
-                        return NotFound("Нет такого пользователя.");
-                    }
-                    else
-                    {
-                        var fullFilePathForDB = "";
-                        if (feedbackImage != null && feedbackImage.Length > 0)
-                        {
-                            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
-                            var uniqueFileName = "feedback_image_" + Guid.NewGuid().ToString() + "_" + feedbackImage.FileName;
-                            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                            using (var stream = new FileStream(filePath, FileMode.Create))
-                            {
-                                feedbackImage.CopyTo(stream);
-                            }
-                            fullFilePathForDB = uniqueFileName;
-                        }
-
-                        Feedback feedback = new Feedback()
-                        {
-                            Customer = customer,
-                            message = feedbackMessage,
-                            Image = fullFilePathForDB,
-                            Date = DateTime.Now.AddHours(3),
-                        };
-                        cont.feedbacks.Add(feedback);
-                        cont.SaveChanges();
-
-                        return Ok(feedback);
-                    }
                 }
+                else
+                {
+                    return BadRequest("Некорректный Id пользователя.");
+                }
+
+
+                if (customer == null)
+                {
+                    return NotFound("Нет такого пользователя.");
+                }
+                else
+                {
+                    var fullFilePathForDB = "";
+                    if (feedbackImage != null && feedbackImage.Length > 0)
+                    {
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+                        var uniqueFileName = "feedback_image_" + Guid.NewGuid().ToString() + "_" + feedbackImage.FileName;
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            feedbackImage.CopyTo(stream);
+                        }
+                        fullFilePathForDB = uniqueFileName;
+                    }
+
+                    Feedback feedback = new Feedback()
+                    {
+                        Customer = customer,
+                        message = feedbackMessage,
+                        Image = fullFilePathForDB,
+                        Date = DateTime.Now.AddHours(3),
+                    };
+                    _dbContext.feedbacks.Add(feedback);
+                    _dbContext.SaveChanges();
+
+                    return Ok(feedback);
+                }
+
             }
             catch (Exception ex)
             {
