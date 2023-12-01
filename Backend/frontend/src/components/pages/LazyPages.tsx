@@ -4,6 +4,10 @@ export const HomePage = lazy(() =>
   import(".././pages/HomePage").then((module) => ({ default: module.HomePage }))
 );
 
+export const AdminOffers = lazy(() =>
+  import(".././adminpages/AdminOffers").then((module) => ({ default: module.AdminOffers }))
+);
+
 export const Payments = lazy(() =>
   import(".././pages/Payments").then((module) => ({ default: module.Payments }))
 );

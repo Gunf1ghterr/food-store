@@ -26,7 +26,7 @@ export const App: React.FC = () => {
                     <Route element={<Pages.Payments />} path="/payments" />
                     <Route element={<Pages.Agreement />} path="/agreement" />
                     <Route element={<Pages.Policy />} path="/privacy-policy" />
-                    <Route element={<Pages.Offers />} path="/offers" />
+                    <Route element={<Pages.AdminOffers />} path="/offers" />
                     <Route element={<Pages.About />} path="/about" />
                     <Route element={<Pages.Feedback />} path="/feedback" />
                     <Route element={<Pages.Checkout />} path="/checkout" />
