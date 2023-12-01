@@ -5,7 +5,7 @@ namespace Backend.Helpers
 {
     public class CheckToken
     {
-        public static string Check (string? token)
+        public static string Check(string? token)
         {
             DotNetEnv.Env.Load();
             var secret = Environment.GetEnvironmentVariable("Secret");

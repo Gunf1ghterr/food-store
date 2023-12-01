@@ -16,7 +16,7 @@ namespace Backend.Controllers
             using (var reader = new StreamReader(Request.Body))
             {
                 var requestBody = await reader.ReadToEndAsync();
-                
+
                 System.Console.WriteLine(requestBody);
             }
 

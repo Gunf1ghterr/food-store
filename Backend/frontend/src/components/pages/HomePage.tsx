@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { FilterParams } from "../functions/FilterParams";
 import { SearchProducts } from "../functions/SearchProducts";
 import { useProducts } from "../../hooks/useProducts";
+import React from "react";
 
 export const HomePage: React.FC = () => {
   const [items, setItems] = useState<IProductContainerProps[]>([]);

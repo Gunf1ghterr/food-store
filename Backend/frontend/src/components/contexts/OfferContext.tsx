@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { IOfferType } from "../../interfaces/IOfferType";
 import { IOfferContainerProps } from "../../interfaces/IOfferContainerProps";
 import { useOffers } from "../../hooks/useOffers";
-
+import React from "react";
 const OfferContext = createContext<IOfferType | null>(null);
 
 export const useOffer = () => {

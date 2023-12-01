@@ -2,6 +2,7 @@ import { FilePreview } from "../../functions/FilePreview";
 import { SendFeedback } from "../../functions/SendFeedback";
 import { InputChanged } from "../../functions/InputChenged";
 import { useCreateFeedback } from "../../../hooks/useCreateFeedback";
+import React from "react";
 
 export const FeedbackModal: React.FC<{ skip: number }> = ({ skip }) => {
   const { mutate } = useCreateFeedback(skip);

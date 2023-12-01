@@ -2,12 +2,18 @@
 using Backend.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Backend.Controllers
 {
-    public class FeedbackController: ControllerBase
+    public class FeedbackController : ControllerBase
     {
+        private readonly IDbContext _dbContext;
 
+        public FeedbackController(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         [HttpGet("api/feedback/get")]
         public IActionResult GetFeedbacks([FromQuery] int skip, [FromQuery] int limit = 10)
@@ -15,14 +21,13 @@ namespace Backend.Controllers
             try
             {
                 List<Feedback> feedbacks = new List<Feedback>();
-                using(var cont = new ContextDataBase())
-                {
-                    feedbacks = cont.feedbacks.Include(f => f.Customer)
-                                       .OrderByDescending(f => f.Date)  
-                                       .Skip(skip)
-                                       .Take(limit)
-                                       .ToList();
-                }
+
+                feedbacks = _dbContext.feedbacks.Include(f => f.Customer)
+                                    .OrderByDescending(f => f.Date)
+                                    .Skip(skip)
+                                    .Take(limit)
+                                    .ToList();
+
                 var feedbacksDTO = feedbacks.Select(f => new FeedbackDTO
                 {
                     FeedbackId = f.Id,
@@ -30,7 +35,7 @@ namespace Backend.Controllers
                     Image = f.Image,
                     Date = f.Date,
                     UserId = f.Customer_Id,
-                    UserName = f.Customer.Name 
+                    UserName = f.Customer.Name
 
                 }).ToList();
                 return Ok(feedbacksDTO);
@@ -40,53 +45,48 @@ namespace Backend.Controllers
                 Console.WriteLine(ex.Message);
                 return BadRequest("Что-то пошло не так.");
             }
-            
+
         }
-        
+
+        [CustomAuthorization]
         [HttpPost("api/feedback/create")]
         public IActionResult CreateFeedback([FromForm] string feedbackMessage, [FromForm] IFormFile feedbackImage, [FromForm] string userId)
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
-
-                switch (auth)
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                }
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != userId)
+                {
+                    return Unauthorized("Нет доступа.");
                 }
 
-                using (var cont = new ContextDataBase())
-                {
-                    var userIdInt = Convert.ToInt32(userId);
-                    Customer customer;
-                
-                    
-                    if (userIdInt > 0)
-                    {
-                    customer = cont.customers.FirstOrDefault(c => c.Id == userIdInt);
+                var userIdInt = Convert.ToInt32(userId);
+                Customer customer;
 
-                    }
-                    else
-                    {
-                        return BadRequest("Некорректный Id пользователя.");
-                    }
-                
+
+                if (userIdInt > 0)
+                {
+                    customer = _dbContext.customers.FirstOrDefault(c => c.Id == userIdInt);
+
+                }
+                else
+                {
+                    return BadRequest("Некорректный Id пользователя.");
+                }
+
 
                 if (customer == null)
                 {
-                        return NotFound("Нет такого пользователя.");
-                } else
+                    return NotFound("Нет такого пользователя.");
+                }
+                else
                 {
                     var fullFilePathForDB = "";
                     if (feedbackImage != null && feedbackImage.Length > 0)
@@ -101,7 +101,7 @@ namespace Backend.Controllers
                         }
                         fullFilePathForDB = uniqueFileName;
                     }
-                    
+
                     Feedback feedback = new Feedback()
                     {
                         Customer = customer,
@@ -109,18 +109,19 @@ namespace Backend.Controllers
                         Image = fullFilePathForDB,
                         Date = DateTime.Now.AddHours(3),
                     };
-                        cont.feedbacks.Add(feedback);
-                        cont.SaveChanges();
+                    _dbContext.feedbacks.Add(feedback);
+                    _dbContext.SaveChanges();
 
-                        return Ok(feedback);
+                    return Ok(feedback);
                 }
-                }
-            } catch (Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return BadRequest("Что-то пошло не так.");
             }
-            
+
         }
     }
 }

@@ -8,57 +8,60 @@ using System.Security.Claims;
 
 namespace Backend.Controllers
 {
-    public class UserController: ControllerBase
+    public class UserController : ControllerBase
     {
+        private readonly IDbContext _dbContext;
+
+        public UserController(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        [CustomAuthorization]
         [HttpDelete("api/user/delete")]
         public IActionResult DeleteUser([FromQuery] string userId)
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
-
-                switch (auth)
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                }
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != userId)
+                {
+                    return Unauthorized("Нет доступа.");
                 }
 
-                using (var cont = new ContextDataBase())
+                int userIdInt = Convert.ToInt32(userId);
+                var userToDelete = _dbContext.customers.FirstOrDefault(c => c.Id == userIdInt);
+
+
+                if (userToDelete != null)
                 {
-                    int userIdInt = Convert.ToInt32(userId);
-                    var userToDelete = cont.customers.FirstOrDefault(c => c.Id == userIdInt);
-
-
-                    if (userToDelete != null)
-                    {
-                        cont.customers.Remove(userToDelete);
-                        cont.SaveChanges();
-                        Response.Cookies.Delete("token");
-                        return Ok("Пользователь успешно удален.");
-                    }
-                    else
-                    {
-                        return NotFound("Пользователь не найден.");
-                    }
+                    _dbContext.customers.Remove(userToDelete);
+                    _dbContext.SaveChanges();
+                    Response.Cookies.Delete("token");
+                    return Ok("Пользователь успешно удален.");
                 }
+                else
+                {
+                    return NotFound("Пользователь не найден.");
+                }
+
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex);
                 return BadRequest("Что-то пошло не так.");
             }
 
         }
 
+        [CustomAuthorization]
         [HttpPut("api/user/update")]
         public IActionResult UpdateUserData(
         [FromForm] string userId,
@@ -69,50 +72,60 @@ namespace Backend.Controllers
         {
             try
             {
-                var auth = CheckToken.Check(Request.Cookies["token"]);
+                //var auth = CheckToken.Check(Request.Cookies["token"]);
 
-                switch (auth)
+                //switch (auth)
+                //{
+                //    case "Пользователь авторизован.":
+                //        break;
+                //    case "Нет токена авторизации. Пользователь не авторизован.":
+                //        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
+                //    case "Пользователь не найден.":
+                //        return NotFound("Пользователь не найден.");
+                //    case "Что-то пошло не так.":
+                //        return BadRequest("Что-то пошло не так.");
+                //    case "Нет пользователя с такими данными.":
+                //        return Unauthorized("Нет пользователя с такими данными.");
+                //    default:
+                //        break;
+                //}
+
+                var token = Request.Cookies["token"];
+                DotNetEnv.Env.Load();
+                var secret = Environment.GetEnvironmentVariable("Secret");
+                if (token == null)
                 {
-                    case "Пользователь авторизован.":
-                        break;
-                    case "Нет токена авторизации. Пользователь не авторизован.":
-                        return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
-                    case "Пользователь не найден.":
-                        return NotFound("Пользователь не найден.");
-                    case "Что-то пошло не так.":
-                        return BadRequest("Что-то пошло не так.");
-                    case "Нет пользователя с такими данными.":
-                        return Unauthorized("Нет пользователя с такими данными.");
-                    default:
-                        break;
-                }
-                using (var context = new ContextDataBase())
-                {
-                    var userIdInt = Convert.ToInt32(userId);
-
-                    var user = context.customers.FirstOrDefault(u => u.Id == userIdInt);
-
-                    if (user == null)
-                    {
-                        return NotFound("Пользователь не найдет.");
-                    }
-
-                    var existingUserWithNewMail = context.customers.FirstOrDefault(u => u.Mail == userMail && u.Id != userIdInt);
-
-                    if (existingUserWithNewMail != null)
-                    {
-                        return BadRequest("Адрес электронной почты уже используется другим пользователем.");
-                    }
-
-                    user.Birthday = userBirthday;
-                    user.Name = userUsername;
-                    user.Phone = userPhone;
-                    user.Mail = userMail;
-
-                    context.SaveChanges();
-                    return Ok(user);
+                    return Unauthorized("Нет токена авторизации. Пользователь не авторизован.");
                 }
 
+                var userIdClaim = LoginHelper.GetClaimFromToken(token, secret, ClaimTypes.Name);
+                if (userIdClaim.Value != userId)
+                {
+                    return Unauthorized("Нет доступа.");
+                }
+                var userIdInt = Convert.ToInt32(userId);
+
+                var user = _dbContext.customers.FirstOrDefault(u => u.Id == userIdInt);
+
+                if (user == null)
+                {
+                    return NotFound("Пользователь не найдет.");
+                }
+
+                var existingUserWithNewMail = _dbContext.customers.FirstOrDefault(u => u.Mail == userMail && u.Id != userIdInt);
+
+                if (existingUserWithNewMail != null)
+                {
+                    return BadRequest("Адрес электронной почты уже используется другим пользователем.");
+                }
+
+                user.Birthday = userBirthday;
+                user.Name = userUsername;
+                user.Phone = userPhone;
+                user.Mail = userMail;
+
+                _dbContext.SaveChanges();
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -124,49 +137,49 @@ namespace Backend.Controllers
 
         [Route("/api/user/registration")]
         [HttpPost]
-         public async Task<IActionResult> Registration(
-            [FromForm] string regNameInput, 
-            [FromForm] string regBirthdayInput, 
-            [FromForm] string regTelInput, 
-            [FromForm] string regPasswordInput, 
-            [FromForm] string regRole, 
+        public async Task<IActionResult> Registration(
+            [FromForm] string regNameInput,
+            [FromForm] string regBirthdayInput,
+            [FromForm] string regTelInput,
+            [FromForm] string regPasswordInput,
+            [FromForm] string regRole,
             [FromForm] string regMailInput)
         {
             try
             {
                 Customer customer;
                 Customer newCustomer;
-                using (var cont = new ContextDataBase())
-                {
-                    customer = cont.customers.FirstOrDefault(c => c.Mail == regMailInput);
-                
-                    if (customer != null)
-                    {
-                        return Conflict("Такой пользователь существует.");
-                    } else
-                    {
-                        newCustomer = new Customer
-                        {
-                            Name = regNameInput,
-                            Birthday = regBirthdayInput,
-                            Phone = regTelInput,
-                            Password = HashPasswordHelper.HashPassword(regPasswordInput),
-                            Role = regRole,
-                            Mail = regMailInput,
-                            Date = DateTime.Now,
-                        };
 
-                        cont.customers.Add(newCustomer);
-                        cont.SaveChanges();
-                        DotNetEnv.Env.Load();
-                        var secret = Environment.GetEnvironmentVariable("Secret");
-                        LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(newCustomer, secret);
-                        Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
-                        {
-                            HttpOnly = true,
-                            Expires = DateTime.Now.AddDays(1),
-                        });
-                    }
+                customer = _dbContext.customers.FirstOrDefault(c => c.Mail == regMailInput);
+
+                if (customer != null)
+                {
+                    return Conflict("Такой пользователь существует.");
+                }
+                else
+                {
+                    newCustomer = new Customer
+                    {
+                        Name = regNameInput,
+                        Birthday = regBirthdayInput,
+                        Phone = regTelInput,
+                        Password = HashPasswordHelper.HashPassword(regPasswordInput),
+                        Role = regRole,
+                        Mail = regMailInput,
+                        Date = DateTime.Now,
+                    };
+
+                    _dbContext.customers.Add(newCustomer);
+                    _dbContext.SaveChanges();
+                    DotNetEnv.Env.Load();
+                    var secret = Environment.GetEnvironmentVariable("Secret");
+                    LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(newCustomer, secret);
+                    Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Expires = DateTime.Now.AddDays(1),
+                    });
+
                 }
                 return Ok(newCustomer);
             }
@@ -179,35 +192,35 @@ namespace Backend.Controllers
 
         [Route("api/user/login")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] string loginMailInput, 
+        public async Task<IActionResult> Login([FromForm] string loginMailInput,
             [FromForm] string loginPasswordInput)
         {
             Customer customer;
             try
             {
-                using (var cont = new ContextDataBase())
+
+                customer = _dbContext.customers.FirstOrDefault(c => c.Mail == loginMailInput &&
+                c.Password == HashPasswordHelper.HashPassword(loginPasswordInput));
+
+                if (customer == null)
                 {
-                    customer = cont.customers.FirstOrDefault(c => c.Mail == loginMailInput &&
-                    c.Password == HashPasswordHelper.HashPassword(loginPasswordInput));
-
-                    if (customer == null)
-                    {
-                        return NotFound("Пользователь не найден!");
-                    } else
-                    {
-                        DotNetEnv.Env.Load();
-                        var secret = Environment.GetEnvironmentVariable("Secret");
-                        LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(customer, secret);
-                        Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
-                        {
-                            HttpOnly = true,
-                            Expires = DateTime.Now.AddDays(1),
-                        });
-                        return Ok(customer);
-                    }
-
-
+                    return NotFound("Пользователь не найден!");
                 }
+                else
+                {
+                    DotNetEnv.Env.Load();
+                    var secret = Environment.GetEnvironmentVariable("Secret");
+                    LoginResponseDTO loginResponseDTO = await LoginHelper.ExecuteLogin(customer, secret);
+                    Response.Cookies.Append("token", loginResponseDTO.Token, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Expires = DateTime.Now.AddDays(1),
+                    });
+                    return Ok(customer);
+                }
+
+
+
             }
             catch (Exception ex)
             {
@@ -244,27 +257,27 @@ namespace Backend.Controllers
 
                 try
                 {
-                    using (var cont = new ContextDataBase())
-                    {
-                        int userIdInt = Convert.ToInt32(userId);
-                        var currentUser = cont.customers.FirstOrDefault(c => c.Id == userIdInt);
 
-                        if (currentUser != null)
-                        {
-                            return Ok(currentUser);
-                        }
-                        else
-                        {
-                            return NotFound("Пользователь не найден.");
-                        }
+                    int userIdInt = Convert.ToInt32(userId);
+                    var currentUser = _dbContext.customers.FirstOrDefault(c => c.Id == userIdInt);
+
+                    if (currentUser != null)
+                    {
+                        return Ok(currentUser);
                     }
+                    else
+                    {
+                        return NotFound("Пользователь не найден.");
+                    }
+
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                     return BadRequest("Что-то пошло не так.");
                 }
-            } else
+            }
+            else
             {
                 return Unauthorized("Нет пользователя с такими данными.");
             }

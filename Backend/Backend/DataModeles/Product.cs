@@ -12,7 +12,7 @@ namespace Backend.DataModeles
         [MaxLength(50)]
         public string Category { get; set; }
         [MaxLength(50)]
-        public string Image {  get; set; }
+        public string Image { get; set; }
         public DateTime Date { get; set; }
 
         public ICollection<ProductList> ProductLists { get; set; }

@@ -1,5 +1,6 @@
 import { IFeedbackContainer } from "../../../interfaces/IFeedbackContainer";
 import { useAuth } from "../../contexts/AuthContext";
+import React from "react";
 
 export const FeedbackContainer: React.FC<IFeedbackContainer> = ({
   date,

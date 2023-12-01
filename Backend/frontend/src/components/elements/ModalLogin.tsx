@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FormLogin } from "./containers/FormLogin";
 import { FormReg } from "./containers/FormReg";
+import React from "react";
 
 export const ModalLogin: React.FC = () => {
   const [login, setLogin] = useState(false);

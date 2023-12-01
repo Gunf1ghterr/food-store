@@ -2,7 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import { useAuth } from "../contexts/AuthContext";
 import { FaShoppingCart } from "react-icons/fa";
-
+import React from "react";
 
 export const Navbar: React.FC = () => {
   const location = useLocation();

@@ -5,9 +5,11 @@ import { FaRepeat } from "react-icons/fa6";
 import { IOrderDTO } from "../../../interfaces/IOrderDTO";
 import { IoClose } from "react-icons/io5";
 import { useCancelOrder } from "../../../hooks/useCancelOrder";
+import { Statuses } from "../../../enums/statuses";
+import React from "react";
 
 export const HistoryContainer: React.FC<IOrderDTO> = ({ order, items }) => {
-  const { mutate } = useCancelOrder(order.customer_Id, order.customer_Id);
+  const { mutate } = useCancelOrder(order.id, order.customer_Id);
 
   const options: Intl.DateTimeFormatOptions = {
     month: "2-digit",
@@ -73,7 +75,8 @@ export const HistoryContainer: React.FC<IOrderDTO> = ({ order, items }) => {
       </div>
       <div className="card-footer d-flex justify-content-between">
         <p className="h5">Сумма заказа: {order.total}</p>
-        {order.status === "Выполнен" || order.status === "Отменен" ? (
+        {order.status === Statuses.Executed ||
+        order.status === Statuses.Cancelled ? (
           <FaRepeat
             style={{ cursor: "pointer", fontSize: "30px" }}
             onClick={() => repeatOrder()}
@@ -100,7 +103,9 @@ export const HistoryContainer: React.FC<IOrderDTO> = ({ order, items }) => {
               className="btn btn-danger mx-2"
               data-bs-toggle="collapse"
               data-bs-target={`#collapseCancelOrder${order.id}`}
-              onClick={() => mutate(order.id)}
+              onClick={() =>
+                mutate({ orderId: order.id, userId: order.customer_Id })
+              }
             >
               Да
             </button>

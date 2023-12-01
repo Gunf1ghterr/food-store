@@ -1,6 +1,7 @@
 import { CarouselItem } from "./CarouselItem";
 import { useEffect } from "react";
 import { useOffer } from "../../contexts/OfferContext";
+import React from "react";
 
 export const Caruosel: React.FC = () => {
   useEffect(() => {}, []);
