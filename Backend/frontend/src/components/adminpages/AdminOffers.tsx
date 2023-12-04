@@ -1,6 +1,6 @@
-import { OfferContainer } from "../elements/containers/OfferContainer";
 import { useOffer } from "../contexts/OfferContext";
 import React from "react";
+import { AdminOfferContainer } from "../elements/containers/AdminOfferContainer";
 
 export const AdminOffers: React.FC = () => {
   const { items } = useOffer();
@@ -9,7 +9,7 @@ export const AdminOffers: React.FC = () => {
       <div className="container">
         <div className="row">
           {items.map((item) => (
-            <OfferContainer
+            <AdminOfferContainer
               key={item.id}
               id={item.id}
               title={item.title}
