@@ -21,18 +21,11 @@ services:
  
   db: 
     environment:
-        - SA_PASSWORD_FILE=/run/secrets/mssql_password
+        - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
         - ACCEPT_EULA=Y
-    secrets:
-        - mssql_password
     ports:
         - "1433:1433"  
     volumes:
         - ./SQLData/data:/var/opt/mssql/data
         - ./SQLData/log:/var/opt/mssql/log
         - ./SQLData/secrets:/var/opt/mssql/secrets
-
-
-secrets:
-  mssql_password:
-    file: .env

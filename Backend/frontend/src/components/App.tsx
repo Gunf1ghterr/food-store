@@ -4,12 +4,13 @@ import { ModalCart } from "./elements/ModalCart";
 import { CartProvider } from "./contexts/CartContext";
 import { OfferProvider } from "./contexts/OfferContext";
 import { Layout } from "./elements/Layout";
+import { AdminLayout } from "./elements/AdminLayout";
 import { ErrorPage } from "./pages/ErrorPage";
 import * as Pages from "./pages/LazyPages";
+import * as AdminPages from "./adminpages/AdminLazyPages";
 import { AuthProvider } from "./contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CurrentOrderProvider } from "./contexts/CurrentOrderContext";
-
 const queryClient = new QueryClient();
 
 export const App: React.FC = () => {
@@ -21,12 +22,17 @@ export const App: React.FC = () => {
             <CartProvider>
               <OfferProvider>
                 <Routes>
+                  <Route element={<AdminLayout />} path="/admin">
+                  <Route element={<AdminPages.AdminPage />} path="/admin" />
+                  {/* <Route element={<AdminPages.AdminProducts />} path="/admin/products" /> */}
+                  </Route>
+
                   <Route element={<Layout />} path="/">
                     <Route element={<Pages.HomePage />} index />
                     <Route element={<Pages.Payments />} path="/payments" />
                     <Route element={<Pages.Agreement />} path="/agreement" />
                     <Route element={<Pages.Policy />} path="/privacy-policy" />
-                    <Route element={<Pages.AdminOffers />} path="/offers" />
+                    <Route element={<Pages.Offers />} path="/offers" />
                     <Route element={<Pages.About />} path="/about" />
                     <Route element={<Pages.Feedback />} path="/feedback" />
                     <Route element={<Pages.Checkout />} path="/checkout" />
