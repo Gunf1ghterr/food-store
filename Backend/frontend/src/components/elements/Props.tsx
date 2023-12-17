@@ -8,16 +8,13 @@ const OrdersPage = () => {
       productName: 'Пример товара 1',
       quantity: 2,
       status: 'В обработке',
-      // Дополнительные поля заказа
     },
     {
       orderNumber: '54321',
       productName: 'Пример товара 2',
       quantity: 1,
       status: 'Выполнен',
-      // Дополнительные поля заказа
     },
-    // Добавьте другие заказы по аналогии
   ];
 
   return (

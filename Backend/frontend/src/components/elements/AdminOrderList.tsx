@@ -16,7 +16,7 @@ interface Order {
 
   const openModal = (order: Order) => {
     setSelectedOrder(order);
-    setEditedOrder({ ...order }); // Create a copy of the order to edit
+    setEditedOrder({ ...order }); 
     setIsModalOpen(true);
   };
 
@@ -30,21 +30,20 @@ interface Order {
     if (editedOrder) {
       setEditedOrder({
         ...editedOrder,
-        [e.target.name]: e.target.value // Update the editedOrder state with the changed value
+        [e.target.name]: e.target.value 
       });
     }
   };
 
   const saveChanges = () => {
     if (editedOrder) {
-      // Update the original order in the list with the editedOrder data
+     
       const updatedOrders = orders.map(order =>
         order.orderNumber === editedOrder.orderNumber ? editedOrder : order
       );
-      // You might have a function here to update the order in your database or context
-      // For now, let's just console log the updated orders
+     
       console.log("Updated Orders:", updatedOrders);
-      closeModal(); // Close the modal after saving changes
+      closeModal(); 
     }
   };
     return (
@@ -117,7 +116,6 @@ interface Order {
           </div>
         </div>
       </div>
-      {/* Конец модального окна Bootstrap */}
     </div>
     );
   };

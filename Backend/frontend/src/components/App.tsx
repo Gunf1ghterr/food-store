@@ -24,7 +24,8 @@ export const App: React.FC = () => {
                 <Routes>
                   <Route element={<AdminLayout />} path="/admin">
                   <Route element={<AdminPages.AdminPage />} path="/admin" />
-                  {/* <Route element={<AdminPages.AdminProducts />} path="/admin/products" /> */}
+                  <Route element={<AdminPages.AdminProducts />} path="/admin/products" />
+                  <Route element={<AdminPages.AdminOffers />} path="/admin/offers" />
                   </Route>
 
                   <Route element={<Layout />} path="/">

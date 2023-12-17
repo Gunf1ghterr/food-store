@@ -1,24 +1,41 @@
-import { useOffer } from "../contexts/OfferContext";
-import React from "react";
-import { AdminOfferContainer } from "../elements/containers/AdminOfferContainer";
+import React from 'react';
+import OfferContainer from '../elements/containers/AdminOfferContainer'; 
+
+
+const offers = [
+  {
+    id: 1,
+    title: 'Скидка на товары для дома',
+    description: 'Скидки до 50% на товары для дома до конца месяца!',
+    image: 'https://example.com/image1.jpg',
+  },
+  {
+    id: 1,
+    title: 'Скидка на товары для дома',
+    description: 'Скидки до 50% на товары для дома до конца месяца!',
+    image: 'https://example.com/image1.jpg',
+  },
+  {
+    id: 1,
+    title: 'Скидка на товары для дома',
+    description: 'Скидки до 50% на товары для дома до конца месяца!',
+    image: 'https://example.com/image1.jpg',
+  },
+  {
+    id: 1,
+    title: 'Скидка на товары для дома',
+    description: 'Скидки до 50% на товары для дома до конца месяца!',
+    image: 'https://example.com/image1.jpg',
+  },
+  
+];
 
 export const AdminOffers: React.FC = () => {
-  const { items } = useOffer();
   return (
-    <main>
-      <div className="container">
-        <div className="row">
-          {items.map((item) => (
-            <AdminOfferContainer
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              image={item.image}
-              description={item.description}
-            />
-          ))}
-        </div>
-      </div>
-    </main>
+    <div className="offers-page">
+      <OfferContainer offerData={offers} />
+    </div>
   );
 };
+
+export default AdminOffers;

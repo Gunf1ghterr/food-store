@@ -47,7 +47,7 @@ export const AdminNavbar: React.FC = () => {
                         "/"
                       )}`}
                       aria-current="page"
-                    to="#"
+                    to="/admin/offers"
                   >
                     Акции
                   </NavLink>
